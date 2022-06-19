@@ -1,54 +1,107 @@
 ﻿// See https://aka.ms/new-console-template for more information
-Console.WriteLine("Inicio de el juego rol");
-Personaje usuario=new Personaje();
-Personaje maquina=new Personaje();
-maquina.Nombre="Maquina";
-maquina.Apodo="CPU";
+Personaje [] grupo1= new Personaje[5];
+Random auxTipos=new Random();
+for (int i = 0; i < 5; i++)
+{
+    grupo1[i]=new Personaje();
+    var characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+    var Charsarr = new char[5];
+    var random = new Random();
+    for (int i = 0; i < Charsarr.Length; i++)
+    {
+        Charsarr[i] = characters[random.Next(characters.Length)];
+    }
+    grupo1[i].Nombre=new String(Charsarr);
+    grupo1[i].Apodo= grupo1[i].Nombre.Substring(auxTipos.Next(1,3));
+    grupo1[i].aleatorios();
+    grupo1[i].valores();
+    Tipos nose;
+    switch (auxTipos.Next(1,5))
+    {
+        case 1:
+            grupo1[i].tipoDos=Tipos.valquiria;
+            break;
+        case 2:
+            grupo1[i].tipoDos=Tipos.caballero;
+            break;
+        case 3:
+            grupo1[i].tipoDos=Tipos.ogro;
+            break;
+        case 4:
+            grupo1[i].tipoDos=Tipos.mago;
+            break;
+        default:
+            grupo1[i].tipoDos=Tipos.bruja;
+            break;
+    }
+    grupo1[i].FechaNacimiento=new DateTime(auxTipos.Next(1,25),auxTipos.Next(1,12),auxTipos.Next(1900,2022));
+}
+Personaje [] grupo2= new Personaje[5];
+int m=0;
+for (int e = 0; e < 4; e++)
+{
+    grupo2[e]=new Personaje();
+    characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+    var jose = new char[5];
+    var ola = new Random();
+    for (int r = 0; r < jose.Length; r++)
+    {
+        jose[r] = characters[ola.Next(characters.Length)];
+    }
+    grupo2[e].Nombre=new String(jose);
+    grupo2[e].Apodo= grupo2[e].Nombre.Substring(auxTipos.Next(1,3));
+    grupo2[e].aleatorios();
+    grupo2[e].valores();
+    Tipos nose;
+    switch (auxTipos.Next(1,5))
+    {
+        case 1:
+            grupo2[e].tipoDos=Tipos.valquiria;
+            break;
+        case 2:
+            grupo2[e].tipoDos=Tipos.caballero;
+            break;
+        case 3:
+            grupo2[e].tipoDos=Tipos.ogro;
+            break;
+        case 4:
+            grupo2[e].tipoDos=Tipos.mago;
+            break;
+        default:
+            grupo2[e].tipoDos=Tipos.bruja;
+            break;
+    }
+    grupo2[e].FechaNacimiento=new DateTime(auxTipos.Next(1,25),auxTipos.Next(1,12),auxTipos.Next(1900,2022));
+    m++;
+}
+m=m+1;
+grupo2[m]=new Personaje();
 System.Console.WriteLine("Dame el nombre de tu personaje");
-usuario.Nombre=Console.ReadLine();
+grupo2[m].Nombre=Console.ReadLine();
 Random aux= new Random();
-usuario.Apodo=usuario.Nombre.Substring(aux.Next(1,3));
+grupo2[m].Apodo=grupo2[m].Nombre.Substring(aux.Next(1,3));
 System.Console.WriteLine("De que tipo va a ser tu personaje? ");
 System.Console.WriteLine("1-valquiria,2-caballero,3-ogro,4-mago,5-bruja");
 int auxNumeros=Int32.Parse(Console.ReadLine());
 switch (auxNumeros)
 {
     case 1:
-        usuario.tipoDos=Tipos.valquiria;
+        grupo2[m].tipoDos=Tipos.valquiria;
         break;
     case 2:
-        usuario.tipoDos=Tipos.caballero;
+        grupo2[m].tipoDos=Tipos.caballero;
         break;
     case 3:
-        usuario.tipoDos=Tipos.ogro;
+        grupo2[m].tipoDos=Tipos.ogro;
         break;
     case 4:
-        usuario.tipoDos=Tipos.mago;
+        grupo2[m].tipoDos=Tipos.mago;
         break;
     default:
-        usuario.tipoDos=Tipos.bruja;
+        grupo2[m].tipoDos=Tipos.bruja;
         break;
 }
-Random auxTipos=new Random();
-Tipos nose;
-switch (auxTipos.Next(1,5))
-{
-    case 1:
-        maquina.tipoDos=Tipos.valquiria;
-        break;
-    case 2:
-        maquina.tipoDos=Tipos.caballero;
-        break;
-    case 3:
-        maquina.tipoDos=Tipos.ogro;
-        break;
-    case 4:
-        maquina.tipoDos=Tipos.mago;
-        break;
-    default:
-        maquina.tipoDos=Tipos.bruja;
-        break;
-}
+
 System.Console.WriteLine("Fecha de nacimiento");
 System.Console.WriteLine("Año en el que naciste: ");
 int anio=Int32.Parse(Console.ReadLine());
@@ -56,31 +109,20 @@ System.Console.WriteLine("Mes en el que naciste");
 int mes=Int32.Parse(Console.ReadLine());
 System.Console.WriteLine("Dia en el que naciste");
 int dia=Int32.Parse(Console.ReadLine());
-usuario.FechaNacimiento=new DateTime(anio,mes,dia);
-maquina.FechaNacimiento=new DateTime(anio,mes,dia);
-usuario.aleatorios();
-usuario.valores();
-maquina.aleatorios();
-maquina.valores();
-//muestro por pantalla los valores adquiridos por ambos personajes
-System.Console.WriteLine("Los valores adquiridos por la CPU a los cuales te vas a enfrentar son:");
-System.Console.WriteLine("Armadura: "+ maquina.Armadura);
-System.Console.WriteLine("Fuerza: "+maquina.Fuerza);
-System.Console.WriteLine("Destreza: "+maquina.Velocidad);
-System.Console.WriteLine("Nivel: "+maquina.Nivel);
-System.Console.WriteLine("Salud: "+maquina.Salud);
-System.Console.WriteLine("Edad: "+maquina.Edad);
-System.Console.WriteLine("Tipo: "+maquina.tipoDos);
+grupo2[m].FechaNacimiento=new DateTime(anio,mes,dia);
+grupo2[m].aleatorios();
+grupo2[m].valores();
+//muestro por pantalla los valores adquiridos por el usuario
 System.Console.WriteLine("Los datos de tu personaje son: ");
-System.Console.WriteLine("Armadura: "+ usuario.Armadura);
-System.Console.WriteLine("Fuerza: "+usuario.Fuerza);
-System.Console.WriteLine("Destreza: "+usuario.Velocidad);
-System.Console.WriteLine("Nivel: "+usuario.Nivel);
-System.Console.WriteLine("Salud: "+usuario.Salud);
-System.Console.WriteLine("Edad: "+usuario.Edad);
-System.Console.WriteLine("Tipo: "+usuario.tipoDos);
-System.Console.WriteLine("Nombre: "+usuario.Nombre);
-System.Console.WriteLine("Apodo: "+usuario.Apodo);
+System.Console.WriteLine("Armadura: "+ grupo2[m].Armadura);
+System.Console.WriteLine("Fuerza: "+grupo2[m].Fuerza);
+System.Console.WriteLine("Destreza: "+grupo2[m].Velocidad);
+System.Console.WriteLine("Nivel: "+grupo2[m].Nivel);
+System.Console.WriteLine("Salud: "+grupo2[m].Salud);
+System.Console.WriteLine("Edad: "+grupo2[m].Edad);
+System.Console.WriteLine("Tipo: "+grupo2[m].tipoDos);
+System.Console.WriteLine("Nombre: "+grupo2[m].Nombre);
+System.Console.WriteLine("Apodo: "+grupo2[m].Apodo);
 //comienzo del juego:
 int aux=2;
 while (aux>1)
@@ -88,12 +130,6 @@ while (aux>1)
     System.Console.WriteLine("El juego esta por comenzar presiona 1 para empezar");
     aux=INT32.Parse(Console.ReadLine());   
 }
-
-while (usuario.Salud>0 && maquina.Salud>0) // mientras ambos tengan salud masyor a 0
-{
-        
-}
-
 //inico de las clases
 
 class caracteristicas
