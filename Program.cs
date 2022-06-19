@@ -124,7 +124,13 @@ Random buenas=new Random();
 int [] indicesGrupo1= new int[5];
 int [] indicesGrupo2= new int[5];
 int auxdos;
-List<Personaje> jugadores=new List<Personaje>();
+int control=1;
+int ataqueSiguiente;
+// for (int k = 5; k < 10; k++)
+// {
+//     jugadores[k]=new Personaje();
+//     jugadores[k]=grupo2[k];
+// }
 for (int t = 0; t < 5; t++)
 {
     auxdos=buenas.Next(1,6);
@@ -161,7 +167,45 @@ for (int t = 0; t < 5; t++)
             indicesGrupo2[t]=auxdos;   
         }
         //ya termine con el numero aleatorio de indices
-        
+        //muestro por pantalla ambos personajes que van a enfrentarse
+        System.Console.WriteLine("Personaje 1:");
+        System.Console.WriteLine("Los datos de el personaje son: ");
+        System.Console.WriteLine("Armadura: "+ grupo1[indicesGrupo1[t]].Armadura);
+        System.Console.WriteLine("Fuerza: "+grupo1[indicesGrupo1[t]].Fuerza);
+        System.Console.WriteLine("Destreza: "+grupo1[indicesGrupo1[t]].Velocidad);
+        System.Console.WriteLine("Nivel: "+grupo1[indicesGrupo1[t]].Nivel);
+        System.Console.WriteLine("Salud: "+grupo1[indicesGrupo1[t]].Salud);
+        System.Console.WriteLine("Edad: "+grupo1[indicesGrupo1[t]].Edad);
+        System.Console.WriteLine("Tipo: "+grupo1[indicesGrupo1[t]].tipoDos);
+        System.Console.WriteLine("Nombre: "+grupo1[indicesGrupo1[t]].Nombre);
+        System.Console.WriteLine("Apodo: "+grupo1[indicesGrupo1[t]].Apodo);
+        System.Console.WriteLine("Personaje2");
+        System.Console.WriteLine("Los datos de el personaje son: ");
+        System.Console.WriteLine("Armadura: "+ grupo2[indicesGrupo2[t]].Armadura);
+        System.Console.WriteLine("Fuerza: "+grupo2[indicesGrupo2[t]].Fuerza);
+        System.Console.WriteLine("Destreza: "+grupo2[indicesGrupo2[t]].Velocidad);
+        System.Console.WriteLine("Nivel: "+grupo2[indicesGrupo2[t]].Nivel);
+        System.Console.WriteLine("Salud: "+grupo2[indicesGrupo2[t]].Salud);
+        System.Console.WriteLine("Edad: "+grupo2[indicesGrupo2[t]].Edad);
+        System.Console.WriteLine("Tipo: "+grupo2[indicesGrupo2[t]].tipoDos);
+        System.Console.WriteLine("Nombre: "+grupo2[indicesGrupo2[t]].Nombre);
+        System.Console.WriteLine("Apodo: "+grupo2[indicesGrupo2[t]].Apodo);
+        System.Console.WriteLine("Presiona 0 para iniciar el combate");
+        control=Int32.Parse(Console.ReadLine());
+        if (control!=0)
+        {
+            while (control!=0)
+            {
+                System.Console.WriteLine("Presiona 0 para iniciar el combate");
+                control=Int32.Parse(Console.ReadLine());
+            }   
+        }
+        control=1;
+        //inicio de el combate, cada personaje va a realizar 3 ataques
+        for (int h = 0; h < 3; h++)
+        {
+
+        }
     }
 }
 //inico de las clases
