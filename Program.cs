@@ -14,7 +14,7 @@ for (int i = 0; i < 5; i++)
     grupo1[i].Apodo= grupo1[i].Nombre.Substring(auxTipos.Next(1,3));
     grupo1[i].aleatorios();
     grupo1[i].valores();
-    switch (auxTipos.Next(1,5))
+    switch (auxTipos.Next(1,6))
     {
         case 1:
             grupo1[i].tipoDos=Tipos.valquiria;
@@ -32,7 +32,7 @@ for (int i = 0; i < 5; i++)
             grupo1[i].tipoDos=Tipos.bruja;
             break;
     }
-    grupo1[i].FechaNacimiento=new DateTime(auxTipos.Next(1900,2022),auxTipos.Next(1,12),auxTipos.Next(1,25));
+    grupo1[i].FechaNacimiento=new DateTime(auxTipos.Next(1900,2023),auxTipos.Next(1,13),auxTipos.Next(1,26));
 }
 Personaje [] grupo2= new Personaje[5];
 int m=0;
@@ -49,7 +49,7 @@ for (int e = 0; e < 4; e++)
     grupo2[e].Apodo= grupo2[e].Nombre.Substring(auxTipos.Next(1,3));
     grupo2[e].aleatorios();
     grupo2[e].valores();
-    switch (auxTipos.Next(1,5))
+    switch (auxTipos.Next(1,6))
     {
         case 1:
             grupo2[e].tipoDos=Tipos.valquiria;
@@ -67,7 +67,7 @@ for (int e = 0; e < 4; e++)
             grupo2[e].tipoDos=Tipos.bruja;
             break;
     }
-    grupo2[e].FechaNacimiento=new DateTime(auxTipos.Next(1900,2022),auxTipos.Next(1,12),auxTipos.Next(1,25));
+    grupo2[e].FechaNacimiento=new DateTime(auxTipos.Next(1900,2023),auxTipos.Next(1,13),auxTipos.Next(1,26));
     //m++;
 }
 m=4;
@@ -120,7 +120,50 @@ System.Console.WriteLine("Tipo: "+grupo2[m].tipoDos);
 System.Console.WriteLine("Nombre: "+grupo2[m].Nombre);
 System.Console.WriteLine("Apodo: "+grupo2[m].Apodo);
 //comienzo del juego:
-
+Random buenas=new Random();
+int [] indicesGrupo1= new int[5];
+int [] indicesGrupo2= new int[5];
+int auxdos;
+List<Personaje> jugadores=new List<Personaje>();
+for (int t = 0; t < 5; t++)
+{
+    auxdos=buenas.Next(1,6);
+    if (t==0)
+    {
+        indicesGrupo1[t]=auxdos;
+        indicesGrupo2[t]=auxdos;
+    }else
+    {
+        //indice grupo uno
+        if (Array.Exists(indicesGrupo1,x=>x==auxdos))
+        {
+            auxdos=buenas.Next(1,6);
+            while (Array.Exists(indicesGrupo1,x=>x==auxdos))
+            {
+                auxdos=buenas.Next(1,6);
+            }
+            indicesGrupo1[t]=auxdos;
+        }else
+        {
+            indicesGrupo1[t]=auxdos;   
+        }
+        //indice grupo dos
+        if (Array.Exists(indicesGrupo2,x=>x==auxdos))
+        {
+            auxdos=buenas.Next(1,6);
+            while (Array.Exists(indicesGrupo2,x=>x==auxdos))
+            {
+                auxdos=buenas.Next(1,6);
+            }
+            indicesGrupo2[t]=auxdos;
+        }else
+        {
+            indicesGrupo2[t]=auxdos;   
+        }
+        //ya termine con el numero aleatorio de indices
+        
+    }
+}
 //inico de las clases
 
 class caracteristicas
@@ -131,6 +174,7 @@ class caracteristicas
         get{
             return velocidad;
         }
+        
     }
     private int destreza;
     public int Destreza{
@@ -172,7 +216,7 @@ enum Tipos
     mago,
     bruja
 }
-class Personaje:caracteristicas // con esto indicamos que el personaje tiene las caractersiaticas ya mencionadas
+class Personaje:caracteristicas// con esto indicamos que el personaje tiene las caractersiaticas ya mencionadas
 {
     private Tipos tipo;
     public Tipos tipoDos{
