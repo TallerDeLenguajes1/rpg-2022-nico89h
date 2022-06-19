@@ -1,21 +1,19 @@
-﻿// See https://aka.ms/new-console-template for more information
-Personaje [] grupo1= new Personaje[5];
+﻿Personaje [] grupo1= new Personaje[5];
 Random auxTipos=new Random();
+var random = new Random();
+var characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+var Charsarr = new char[5];
 for (int i = 0; i < 5; i++)
 {
     grupo1[i]=new Personaje();
-    var characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-    var Charsarr = new char[5];
-    var random = new Random();
-    for (int i = 0; i < Charsarr.Length; i++)
+    for (int f = 0; f < Charsarr.Length; f++)
     {
-        Charsarr[i] = characters[random.Next(characters.Length)];
+        Charsarr[f] = characters[random.Next(characters.Length)];
     }
     grupo1[i].Nombre=new String(Charsarr);
     grupo1[i].Apodo= grupo1[i].Nombre.Substring(auxTipos.Next(1,3));
     grupo1[i].aleatorios();
     grupo1[i].valores();
-    Tipos nose;
     switch (auxTipos.Next(1,5))
     {
         case 1:
@@ -34,16 +32,15 @@ for (int i = 0; i < 5; i++)
             grupo1[i].tipoDos=Tipos.bruja;
             break;
     }
-    grupo1[i].FechaNacimiento=new DateTime(auxTipos.Next(1,25),auxTipos.Next(1,12),auxTipos.Next(1900,2022));
+    grupo1[i].FechaNacimiento=new DateTime(auxTipos.Next(1900,2022),auxTipos.Next(1,12),auxTipos.Next(1,25));
 }
 Personaje [] grupo2= new Personaje[5];
 int m=0;
+var ola = new Random();
+var jose = new char[5];
 for (int e = 0; e < 4; e++)
 {
     grupo2[e]=new Personaje();
-    characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-    var jose = new char[5];
-    var ola = new Random();
     for (int r = 0; r < jose.Length; r++)
     {
         jose[r] = characters[ola.Next(characters.Length)];
@@ -52,7 +49,6 @@ for (int e = 0; e < 4; e++)
     grupo2[e].Apodo= grupo2[e].Nombre.Substring(auxTipos.Next(1,3));
     grupo2[e].aleatorios();
     grupo2[e].valores();
-    Tipos nose;
     switch (auxTipos.Next(1,5))
     {
         case 1:
@@ -71,10 +67,10 @@ for (int e = 0; e < 4; e++)
             grupo2[e].tipoDos=Tipos.bruja;
             break;
     }
-    grupo2[e].FechaNacimiento=new DateTime(auxTipos.Next(1,25),auxTipos.Next(1,12),auxTipos.Next(1900,2022));
-    m++;
+    grupo2[e].FechaNacimiento=new DateTime(auxTipos.Next(1900,2022),auxTipos.Next(1,12),auxTipos.Next(1,25));
+    //m++;
 }
-m=m+1;
+m=4;
 grupo2[m]=new Personaje();
 System.Console.WriteLine("Dame el nombre de tu personaje");
 grupo2[m].Nombre=Console.ReadLine();
@@ -124,12 +120,7 @@ System.Console.WriteLine("Tipo: "+grupo2[m].tipoDos);
 System.Console.WriteLine("Nombre: "+grupo2[m].Nombre);
 System.Console.WriteLine("Apodo: "+grupo2[m].Apodo);
 //comienzo del juego:
-int aux=2;
-while (aux>1)
-{
-    System.Console.WriteLine("El juego esta por comenzar presiona 1 para empezar");
-    aux=INT32.Parse(Console.ReadLine());   
-}
+
 //inico de las clases
 
 class caracteristicas
