@@ -1,4 +1,5 @@
-﻿Personaje [] grupo1= new Personaje[5];
+﻿//List<Personaje> Resultados=new List<Personaje>();
+Personaje [] grupo1= new Personaje[5];
 Random auxTipos=new Random();
 var random = new Random();
 var characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
@@ -33,6 +34,11 @@ for (int i = 0; i < 5; i++)
             break;
     }
     grupo1[i].FechaNacimiento=new DateTime(auxTipos.Next(1900,2023),auxTipos.Next(1,13),auxTipos.Next(1,26));
+    // Resultados.Insert(i,new Personaje{Nombre=grupo1[i].Nombre,Apodo=grupo1[i].Apodo,FechaNacimiento=grupo1[i].FechaNacimiento});
+    // Resultados[i].aleatorios();
+    // Resultados[i].valores();
+    // System.Console.WriteLine("Ola los resultados del grupo en aradura con el indice :"+i+"son "+grupo1[i].Armadura);
+    // System.Console.WriteLine("Ola los resultados de la lista en aradura con el indice :"+i+"son "+Resultados[i].Armadura);
 }
 Personaje [] grupo2= new Personaje[5];
 int m=0;
@@ -70,6 +76,13 @@ for (int e = 0; e < 4; e++)
     grupo2[e].FechaNacimiento=new DateTime(auxTipos.Next(1900,2023),auxTipos.Next(1,13),auxTipos.Next(1,26));
     //m++;
 }
+// Random nose= new Random();
+// for (int i = 0; i < 2; i++)
+// {
+//     System.Console.WriteLine("ola "+ nose.Next(1,3));
+//     System.Console.WriteLine("ola "+ nose.Next(1,3));
+//     System.Console.WriteLine("ola "+ nose.Next(1,3));
+// }
 m=4;
 grupo2[m]=new Personaje();
 System.Console.WriteLine("Dame el nombre de tu personaje");
@@ -120,78 +133,50 @@ System.Console.WriteLine("Tipo: "+grupo2[m].tipoDos);
 System.Console.WriteLine("Nombre: "+grupo2[m].Nombre);
 System.Console.WriteLine("Apodo: "+grupo2[m].Apodo);
 //comienzo del juego:
+//se tienen que pelear 2 personajes, uno de cada grupo. El ganador podra seguir competiendo, el perdedor no
+
 Random buenas=new Random();
-int [] indicesGrupo1= new int[5];
-int [] indicesGrupo2= new int[5];
-int auxdos;
+int [] IndicesTotal={1,2,3,4,5,6,7,8,9,10};
+Random auxDos=new Random();
 int control=1;
-int ataqueSiguiente;
-// for (int k = 5; k < 10; k++)
-// {
-//     jugadores[k]=new Personaje();
-//     jugadores[k]=grupo2[k];
-// }
+int PoderDisparo;
+Random EfectividadDisparo= new Random();
+int ValorAtaque;
+int PoderDefensa;
+const int MaximoDañoProvocable=50000;
+int DanoProvocable;
 for (int t = 0; t < 5; t++)
 {
-    auxdos=buenas.Next(1,6);
+
     if (t==0)
     {
-        indicesGrupo1[t]=auxdos;
-        indicesGrupo2[t]=auxdos;
-    }else
-    {
-        //indice grupo uno
-        if (Array.Exists(indicesGrupo1,x=>x==auxdos))
-        {
-            auxdos=buenas.Next(1,6);
-            while (Array.Exists(indicesGrupo1,x=>x==auxdos))
-            {
-                auxdos=buenas.Next(1,6);
-            }
-            indicesGrupo1[t]=auxdos;
-        }else
-        {
-            indicesGrupo1[t]=auxdos;   
-        }
-        //indice grupo dos
-        if (Array.Exists(indicesGrupo2,x=>x==auxdos))
-        {
-            auxdos=buenas.Next(1,6);
-            while (Array.Exists(indicesGrupo2,x=>x==auxdos))
-            {
-                auxdos=buenas.Next(1,6);
-            }
-            indicesGrupo2[t]=auxdos;
-        }else
-        {
-            indicesGrupo2[t]=auxdos;   
-        }
-        //ya termine con el numero aleatorio de indices
-        //muestro por pantalla ambos personajes que van a enfrentarse
         System.Console.WriteLine("Personaje 1:");
         System.Console.WriteLine("Los datos de el personaje son: ");
-        System.Console.WriteLine("Armadura: "+ grupo1[indicesGrupo1[t]].Armadura);
-        System.Console.WriteLine("Fuerza: "+grupo1[indicesGrupo1[t]].Fuerza);
-        System.Console.WriteLine("Destreza: "+grupo1[indicesGrupo1[t]].Velocidad);
-        System.Console.WriteLine("Nivel: "+grupo1[indicesGrupo1[t]].Nivel);
-        System.Console.WriteLine("Salud: "+grupo1[indicesGrupo1[t]].Salud);
-        System.Console.WriteLine("Edad: "+grupo1[indicesGrupo1[t]].Edad);
-        System.Console.WriteLine("Tipo: "+grupo1[indicesGrupo1[t]].tipoDos);
-        System.Console.WriteLine("Nombre: "+grupo1[indicesGrupo1[t]].Nombre);
-        System.Console.WriteLine("Apodo: "+grupo1[indicesGrupo1[t]].Apodo);
+        System.Console.WriteLine("Armadura: "+ grupo1[buenas.Next(0,5)].Armadura);
+        System.Console.WriteLine("Fuerza: "+grupo1[buenas.Next(0,5)].Fuerza);
+        System.Console.WriteLine("Destreza: "+grupo1[buenas.Next(0,5)].Velocidad);
+        System.Console.WriteLine("Nivel: "+grupo1[buenas.Next(0,5)].Nivel);
+        System.Console.WriteLine("Salud: "+grupo1[buenas.Next(0,5)].Salud);
+        System.Console.WriteLine("Edad: "+grupo1[buenas.Next(0,5)].Edad);
+        System.Console.WriteLine("Tipo: "+grupo1[buenas.Next(0,5)].tipoDos);
+        System.Console.WriteLine("Nombre: "+grupo1[buenas.Next(0,5)].Nombre);
+        System.Console.WriteLine("Apodo: "+grupo1[buenas.Next(0,5)].Apodo);
         System.Console.WriteLine("Personaje2");
         System.Console.WriteLine("Los datos de el personaje son: ");
-        System.Console.WriteLine("Armadura: "+ grupo2[indicesGrupo2[t]].Armadura);
-        System.Console.WriteLine("Fuerza: "+grupo2[indicesGrupo2[t]].Fuerza);
-        System.Console.WriteLine("Destreza: "+grupo2[indicesGrupo2[t]].Velocidad);
-        System.Console.WriteLine("Nivel: "+grupo2[indicesGrupo2[t]].Nivel);
-        System.Console.WriteLine("Salud: "+grupo2[indicesGrupo2[t]].Salud);
-        System.Console.WriteLine("Edad: "+grupo2[indicesGrupo2[t]].Edad);
-        System.Console.WriteLine("Tipo: "+grupo2[indicesGrupo2[t]].tipoDos);
-        System.Console.WriteLine("Nombre: "+grupo2[indicesGrupo2[t]].Nombre);
-        System.Console.WriteLine("Apodo: "+grupo2[indicesGrupo2[t]].Apodo);
+        System.Console.WriteLine("Armadura: "+ grupo2[auxDos.Next(0,5)].Armadura);
+        System.Console.WriteLine("Fuerza: "+grupo2[auxDos.Next(0,5)].Fuerza);
+        System.Console.WriteLine("Destreza: "+grupo2[auxDos.Next(0,5)].Velocidad);
+        System.Console.WriteLine("Nivel: "+grupo2[auxDos.Next(0,5)].Nivel);
+        System.Console.WriteLine("Salud: "+grupo2[auxDos.Next(0,5)].Salud);
+        System.Console.WriteLine("Edad: "+grupo2[auxDos.Next(0,5)].Edad);
+        System.Console.WriteLine("Tipo: "+grupo2[auxDos.Next(0,5)].tipoDos);
+        System.Console.WriteLine("Nombre: "+grupo2[auxDos.Next(0,5)].Nombre);
+        System.Console.WriteLine("Apodo: "+grupo2[auxDos.Next(0,5)].Apodo); 
         System.Console.WriteLine("Presiona 0 para iniciar el combate");
         control=Int32.Parse(Console.ReadLine());
+        int indiceDos;
+        indiceDos=auxDos.Next(0,5);
+        int indiceUno=buenas.Next(0,5);
         if (control!=0)
         {
             while (control!=0)
@@ -200,13 +185,23 @@ for (int t = 0; t < 5; t++)
                 control=Int32.Parse(Console.ReadLine());
             }   
         }
-        control=1;
-        //inicio de el combate, cada personaje va a realizar 3 ataques
-        for (int h = 0; h < 3; h++)
+        for (int i = 0; i < 3 && grupo1[indiceUno].Salud>0 && grupo2[indiceDos].Salud>0; i++)
         {
-
+            //ya estan creadas las variables ir mostrando cada ataque dependiendo del personaje pibe y falta hacer un control
+            //de los indices usados y el ganador de la ronda en el paso anterior en la seleccion de los personajes
         }
     }
+    //ya termine con el numero aleatorio de indices
+    //muestro por pantalla ambos personajes que van a enfrentarse
+
+    
+    control=1;
+    //inicio de el combate, cada personaje va a realizar 3 ataques
+    for (int h = 0; h < 3; h++)
+    {
+
+    }
+    
 }
 //inico de las clases
 
