@@ -1,7 +1,7 @@
 ﻿List<Personaje> grupo1= new List<Personaje>();
 //incio el guardado de los datos en las listas
 Personaje grupo= new Personaje();
-for (int i = 0; i < 5; i++)
+for (int i = 0; i < 4; i++)
 {
     grupo=cargarDatos();
     grupo1.Insert(i,new Personaje{Nombre=grupo.Nombre,Apodo=grupo.Apodo,FechaNacimiento=grupo.FechaNacimiento});
@@ -10,7 +10,7 @@ for (int i = 0; i < 5; i++)
 }
 List<Personaje> grupo2= new List<Personaje>();
 //int m=0;
-for (int e = 0; e < 5; e++)
+for (int e = 0; e < 4; e++)
 {
     grupo=cargarDatos();
     grupo2.Insert(e,new Personaje{Nombre=grupo.Nombre,Apodo=grupo.Apodo,FechaNacimiento=grupo.FechaNacimiento});
@@ -19,11 +19,32 @@ for (int e = 0; e < 5; e++)
 }
 //fin de el guardado de datos
 
+//inicio con el combate de los jugadores
+Random indice1=new Random();
+Random indice2=new Random();
+List<Personaje> Resultados= new List<Personaje>();
+List<bool> controles= new List<bool>();
+controles=control(8); // comienzo de todos los jugadores
+for (int i = 0; i < 4; i++) // son en total 4
+{
+
+}
+
 
 
 
 
 //inicio de funciones
+//inicializo la lista en true, donde va a representar lo que es los indices de los personajes
+List<bool> control(int cantidad){
+    List<bool> aux=new List<bool>();
+    for (int i = 0; i < cantidad; i++)
+    {
+        aux.Insert(i, true);
+    }
+    return aux;
+}
+
 Personaje cargarDatos(){
     Random auxTipos=new Random();
     var random = new Random();
