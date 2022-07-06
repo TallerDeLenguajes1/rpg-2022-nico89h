@@ -1,10 +1,12 @@
-﻿List<Personaje> grupo1= new List<Personaje>();
+﻿const int MaximoDanoProvocable=5000;
+List<Personaje> grupo1= new List<Personaje>();
 //incio el guardado de los datos en las listas
 Personaje grupo= new Personaje();
 for (int i = 0; i < 4; i++)
 {
     grupo=cargarDatos();
     grupo1.Insert(i,new Personaje{Nombre=grupo.Nombre,Apodo=grupo.Apodo,FechaNacimiento=grupo.FechaNacimiento});
+    
     grupo1[i].aleatorios();
     grupo1[i].valores();
 }
@@ -22,12 +24,167 @@ for (int e = 0; e < 4; e++)
 //inicio con el combate de los jugadores
 Random indice1=new Random();
 Random indice2=new Random();
-List<Personaje> Resultados= new List<Personaje>();
 List<bool> controles= new List<bool>();
 controles=control(8); // comienzo de todos los jugadores
-for (int i = 0; i < 4; i++) // son en total 4
-{
+int indiceUno;
+int indiceDos;
+int cantidadPeleas=4;
+int comienzo=0;
+int auxDos;
+int cantidad=0;
+List<Personaje> Resultados= new List<Personaje>();
+List<Personaje> ResultadosDos= new List<Personaje>();
 
+for (int i = 0; i < 3; i++) // son en total 3, los rounds  
+{
+    if (i==0) //primera iteracion, utilizo los valores de los grupos
+    {    
+        for (int t = 0; t < cantidadPeleas; t++) // realizo la pelea de cada round
+        {
+            //relizo el control si es que se uso un elemento o no;
+            do
+            {
+                indiceUno=indice1.Next(0,4);
+                indiceDos=indice2.Next(4,8);
+            }while(controles[indiceUno] && controles[indiceDos]);
+            //indico cuales indices ya fueron usados
+            controles[indiceUno]=false;
+            controles[indiceDos]=false;
+            //comienzo la batalla entre los dos personajes seleccionados en cada round
+            for (int e = 0; e < 6 && grupo1[indiceUno].Salud>0 && grupo2[indiceDos].Salud>0; e++) // cantidad de ataques de cada personaje
+            {
+                //hago un random de el atacante inicial
+                do
+                {
+                    auxDos=indice1.Next(1,3);
+                } while (comienzo!=auxDos);
+                comienzo=auxDos;
+                if(comienzo==1){ //el primer atacante pertenece a el grupo1
+                    grupo2[indiceDos].Salud=grupo2[indiceDos].Salud-(MecanicaCombate(grupo1[indiceUno],grupo2[indiceDos]));
+                }else //el segundo atacante es del grupo 2
+                {
+                    grupo1[indiceUno].Salud=grupo1[indiceUno].Salud-(MecanicaCombate(grupo2[indiceDos],grupo1[indiceUno]));
+                }
+            }
+            //inicio el guardado de los personajes ganadores
+            if (grupo1[indiceUno].Salud==0)
+            {
+                Resultados.Insert(cantidad,new Personaje{Nombre=grupo2[indiceDos].Nombre,Apodo=grupo2[indiceDos].Apodo,FechaNacimiento=grupo2[indiceDos].FechaNacimiento});
+                Resultados[cantidad].aleatorios();
+                Resultados[cantidad].valores();
+                cantidad++;
+            }else if(grupo2[indiceDos].Salud==0){
+                Resultados.Insert(cantidad,new Personaje{Nombre=grupo1[indiceUno].Nombre,Apodo=grupo1[indiceUno].Apodo,FechaNacimiento=grupo1[indiceUno].FechaNacimiento});
+                Resultados[cantidad].aleatorios();
+                Resultados[cantidad].valores();
+                cantidad++;
+            }else if (grupo1[indiceUno].Salud>grupo2[indiceDos].Salud)
+            {
+                Resultados.Insert(cantidad,new Personaje{Nombre=grupo1[indiceUno].Nombre,Apodo=grupo1[indiceUno].Apodo,FechaNacimiento=grupo1[indiceUno].FechaNacimiento});
+                Resultados[cantidad].aleatorios();
+                Resultados[cantidad].valores();
+                cantidad++;
+            }else if(grupo2[indiceDos].Salud>grupo1[indiceUno].Salud)
+            {
+                Resultados.Insert(cantidad,new Personaje{Nombre=grupo2[indiceDos].Nombre,Apodo=grupo2[indiceDos].Apodo,FechaNacimiento=grupo2[indiceDos].FechaNacimiento});
+                Resultados[cantidad].aleatorios();
+                Resultados[cantidad].valores();
+                cantidad++;
+            }
+        }   
+    }else //en caso de que hayan pasado la primera ronda,uso los ganadores
+    {
+        if (cantidadPeleas==2) //la final de todo, se decidira el ganador Total
+        {
+            for (int e = 0; e < 6 && ResultadosDos[0].Salud>0 && ResultadosDos[1].Salud>0; e++) // cantidad de ataques de cada personaje
+            {
+                //hago un random de el atacante inicial
+                do
+                {
+                    auxDos=indice1.Next(0,2);
+                } while (comienzo!=auxDos);
+                comienzo=auxDos;
+                if(comienzo==1){ //el primer atacante pertenece a el Resultados
+                    ResultadosDos[1].Salud=ResultadosDos[1].Salud-(MecanicaCombate(ResultadosDos[0],ResultadosDos[1]));
+                }else //el segundo atacante es del grupo 2
+                {
+                    ResultadosDos[0].Salud=ResultadosDos[0].Salud-(MecanicaCombate(ResultadosDos[1],ResultadosDos[0]));
+                }
+            }
+            //inicio de el ganador Total
+            if (ResultadosDos[0].Salud==0)
+            {
+                mostrarGanador(ResultadosDos[1]);   
+            }else if(ResultadosDos[1].Salud==0){
+                mostrarGanador(ResultadosDos[0]);
+            }else if (ResultadosDos[0].Salud>ResultadosDos[1].Salud)
+            {
+                mostrarGanador(ResultadosDos[0]);
+            }else if(ResultadosDos[1].Salud>ResultadosDos[0].Salud)
+            {
+                mostrarGanador(ResultadosDos[1]);
+            }
+        }else
+        {
+            for (int t = 0; t < cantidadPeleas; t++) // realizo la pelea de cada round
+            {
+                //relizo el control si es que se uso un elemento o no;
+                do
+                {
+                    indiceUno=indice1.Next(0,2);
+                    indiceDos=indice2.Next(2,4);
+                }while(controles[indiceUno] && controles[indiceDos]);
+                //indico cuales indices ya fueron usados
+                controles[indiceUno]=false;
+                controles[indiceDos]=false;
+                //comienzo la batalla entre los dos personajes seleccionados en cada round
+                for (int e = 0; e < 6 && Resultados[indiceUno].Salud>0 && Resultados[indiceDos].Salud>0; e++) // cantidad de ataques de cada personaje
+                {
+                    //hago un random de el atacante inicial
+                    do
+                    {
+                        auxDos=indice1.Next(1,3);
+                    } while (comienzo!=auxDos);
+                    comienzo=auxDos;
+                    if(comienzo==1){ //el primer atacante pertenece a el Resultados
+                        Resultados[indiceDos].Salud=Resultados[indiceDos].Salud-(MecanicaCombate(Resultados[indiceUno],Resultados[indiceDos]));
+                    }else //el segundo atacante es del grupo 2
+                    {
+                        Resultados[indiceUno].Salud=Resultados[indiceUno].Salud-(MecanicaCombate(Resultados[indiceDos],Resultados[indiceUno]));
+                    }
+                }
+                //inicio el guardado de los personajes ganadores
+                if (Resultados[indiceUno].Salud==0)
+                {
+                    ResultadosDos.Insert(cantidad,new Personaje{Nombre=Resultados[indiceDos].Nombre,Apodo=Resultados[indiceDos].Apodo,FechaNacimiento=Resultados[indiceDos].FechaNacimiento});
+                    ResultadosDos[cantidad].aleatorios();
+                    ResultadosDos[cantidad].valores();
+                    cantidad++;
+                }else if(Resultados[indiceDos].Salud==0){
+                    Resultados.Insert(cantidad,new Personaje{Nombre=Resultados[indiceUno].Nombre,Apodo=Resultados[indiceUno].Apodo,FechaNacimiento=Resultados[indiceUno].FechaNacimiento});
+                    ResultadosDos[cantidad].aleatorios();
+                    ResultadosDos[cantidad].valores();
+                    cantidad++;
+                }else if (Resultados[indiceUno].Salud>Resultados[indiceDos].Salud)
+                {
+                    ResultadosDos.Insert(cantidad,new Personaje{Nombre=Resultados[indiceUno].Nombre,Apodo=Resultados[indiceUno].Apodo,FechaNacimiento=Resultados[indiceUno].FechaNacimiento});
+                    ResultadosDos[cantidad].aleatorios();
+                    ResultadosDos[cantidad].valores();
+                    cantidad++;
+                }else if(Resultados[indiceDos].Salud>Resultados[indiceUno].Salud)
+                {
+                    ResultadosDos.Insert(cantidad,new Personaje{Nombre=Resultados[indiceDos].Nombre,Apodo=Resultados[indiceDos].Apodo,FechaNacimiento=Resultados[indiceDos].FechaNacimiento});
+                    ResultadosDos[cantidad].aleatorios();
+                    ResultadosDos[cantidad].valores();
+                    cantidad++;
+                }
+            }    
+        }
+        
+    }
+    cantidadPeleas=cantidadPeleas/2;
+    controles=control(cantidadPeleas);
+    cantidad=0;
 }
 
 
@@ -35,6 +192,16 @@ for (int i = 0; i < 4; i++) // son en total 4
 
 
 //inicio de funciones
+//funcion para obtener la salud del personaje
+int MecanicaCombate(Personaje atacante, Personaje defensor){
+    int PoderDisparo=atacante.Destreza* atacante.Fuerza* atacante.Nivel;
+    Random aleatorio=new Random();
+    int efectividadDisparo=aleatorio.Next(1,101);
+    int valorAtaque=PoderDisparo*efectividadDisparo;
+    int poderDefensa=defensor.Armadura*defensor.Velocidad;
+    int danoProvocado=(((valorAtaque*efectividadDisparo)-poderDefensa)/MaximoDanoProvocable)*100;
+    return danoProvocado;
+}
 //inicializo la lista en true, donde va a representar lo que es los indices de los personajes
 List<bool> control(int cantidad){
     List<bool> aux=new List<bool>();
@@ -44,7 +211,6 @@ List<bool> control(int cantidad){
     }
     return aux;
 }
-
 Personaje cargarDatos(){
     Random auxTipos=new Random();
     var random = new Random();
@@ -78,9 +244,25 @@ Personaje cargarDatos(){
             break;
     }
     grupo.FechaNacimiento=new DateTime(auxTipos.Next(1900,2023),auxTipos.Next(1,13),auxTipos.Next(1,26));
+    grupo.Salud=100;
     return grupo;
 }
-
+void mostrarGanador(Personaje ganador){
+    //inicio de mostrar ganador
+    System.Console.WriteLine("El ganador Total, de todos es: ");
+    System.Console.WriteLine("Obteniendo el TRONO DE HIERRO, es: ....");
+    System.Console.WriteLine(ganador.tipoDos);
+    System.Console.WriteLine("Cuyo nombre es: "+ ganador.Nombre);
+    System.Console.WriteLine("Salud: "+ ganador.Salud);
+    System.Console.WriteLine("Edad: "+ ganador.Edad);
+    System.Console.WriteLine("Apodo"+ ganador.Apodo);
+    System.Console.WriteLine("Caracteristicas: ");
+    System.Console.WriteLine("Destreza"+ ganador.Destreza);
+    System.Console.WriteLine("Velocidad"+ ganador.Velocidad);
+    System.Console.WriteLine("Fuerza"+ ganador.Fuerza);
+    System.Console.WriteLine("Armadura"+ ganador.Armadura);
+    System.Console.WriteLine("Fin del juego.");
+}
 //inico de las clases
 
 class caracteristicas
@@ -182,10 +364,12 @@ class Personaje:caracteristicas// con esto indicamos que el personaje tiene las 
         get{
             return salud;
         }
+        set{
+            salud=value;
+        }
     }
     private Random aux=new Random();
     public void aleatorios(){
         this.edad=aux.Next(0,300);
-        this.salud=100;
     }
 }
