@@ -1,26 +1,57 @@
-﻿const int MaximoDanoProvocable=5000;
+﻿using System.IO;
+using System.Text.Json;
+using System.Text.Json.Serialization;
+const int MaximoDanoProvocable=5000;
 List<Personaje> grupo1= new List<Personaje>();
-//incio el guardado de los datos en las listas
-Personaje grupo= new Personaje();
-for (int i = 0; i < 4; i++)
-{
-    grupo=cargarDatos();
-    grupo1.Insert(i,new Personaje{Nombre=grupo.Nombre,Apodo=grupo.Apodo,FechaNacimiento=grupo.FechaNacimiento});
-    
-    grupo1[i].aleatorios();
-    grupo1[i].valores();
-}
 List<Personaje> grupo2= new List<Personaje>();
-//int m=0;
-for (int e = 0; e < 4; e++)
+System.Console.WriteLine("Como queres que se carguen los personajes? 1-aleatoriamente, 2-json");
+int boton=Int32.Parse(Console.ReadLine());
+//incio el guardado de los datos en las listas para personajes aleatorios
+if (boton==1)
 {
-    grupo=cargarDatos();
-    grupo2.Insert(e,new Personaje{Nombre=grupo.Nombre,Apodo=grupo.Apodo,FechaNacimiento=grupo.FechaNacimiento});
-    grupo2[e].aleatorios();
-    grupo2[e].valores();
+    Personaje grupo= new Personaje();
+    for (int i = 0; i < 4; i++)
+    {
+        grupo=cargarDatos();
+        grupo1.Insert(i,new Personaje{Nombre=grupo.Nombre,Apodo=grupo.Apodo,FechaNacimiento=grupo.FechaNacimiento, Salud=100, tipoDos=grupo.tipoDos});    
+        grupo1[i].aleatorios();
+        grupo1[i].valores();
+        //inidices en el ola de 0 a 3
+    }
+    //int m=0;
+    for (int e = 0; e < 4; e++)
+    {
+        //indice de 4 a 7
+        grupo=cargarDatos();
+        grupo2.Insert(e,new Personaje{Nombre=grupo.Nombre,Apodo=grupo.Apodo,FechaNacimiento=grupo.FechaNacimiento,Salud=100, tipoDos=grupo.tipoDos});
+        grupo2[e].aleatorios();
+        grupo2[e].valores();
+    }    
+}else //guardado de personajes a traves de json
+{
+    string auxLeer= File.ReadAllText("jugadores.json");
+    var desiarilizacion= JsonSerializer.Deserialize<List<Personaje>>(auxLeer);
+    for (int i = 0; i < 4; i++) //primer cargado de el grupo 1
+    {
+        grupo2.Insert(i,new Personaje{Velocidad=desiarilizacion[i].Velocidad,Destreza=desiarilizacion[i].Destreza,Fuerza=desiarilizacion[i].Fuerza,Nivel=desiarilizacion[i].Nivel,Armadura=desiarilizacion[i].Armadura,tipoDos=desiarilizacion[i].tipoDos,Nombre=desiarilizacion[i].Nombre,Apodo=desiarilizacion[i].Apodo,FechaNacimiento=desiarilizacion[i].FechaNacimiento,Edad=desiarilizacion[i].Edad,Salud=100});
+        
+    }
+    int e=0;
+    for (int i = 4; i < 8; i++) //cargado de el grupo 2
+    {
+        grupo1.Insert(e,new Personaje{Velocidad=desiarilizacion[i].Velocidad,Destreza=desiarilizacion[i].Destreza,Fuerza=desiarilizacion[i].Fuerza,Nivel=desiarilizacion[i].Nivel,Armadura=desiarilizacion[i].Armadura,tipoDos=desiarilizacion[i].tipoDos,Nombre=desiarilizacion[i].Nombre,Apodo=desiarilizacion[i].Apodo,FechaNacimiento=desiarilizacion[i].FechaNacimiento,Edad=desiarilizacion[i].Edad,Salud=100});
+        e++;
+    }
 }
+
+
+
 //fin de el guardado de datos
 
+// grupo1.AddRange(grupo2);
+// string nombre="jugadores.json";
+// string text=JsonSerializer.Serialize(grupo1);
+// File.WriteAllText(nombre,text);
 //inicio con el combate de los jugadores
 Random indice1=new Random();
 Random indice2=new Random();
@@ -42,22 +73,52 @@ for (int i = 0; i < 3; i++) // son en total 3, los rounds
         for (int t = 0; t < cantidadPeleas; t++) // realizo la pelea de cada round
         {
             //relizo el control si es que se uso un elemento o no;
-            do
+            do      
             {
                 indiceUno=indice1.Next(0,4);
+                System.Console.WriteLine(indiceUno);
                 indiceDos=indice2.Next(4,8);
-            }while(controles[indiceUno] && controles[indiceDos]);
+                System.Console.WriteLine(indiceDos);
+            }while(!controles[indiceUno] && !controles[indiceDos]);
             //indico cuales indices ya fueron usados
             controles[indiceUno]=false;
             controles[indiceDos]=false;
+            switch (indiceDos)
+            {
+                case 4:
+                    indiceDos=0;
+                    break;
+                case 5:
+                    indiceDos=1;
+                    break;
+                case 6:
+                    indiceDos=2;
+                    break;
+                default:
+                    indiceDos=3;
+                    break;
+            }
+            int siguienteGolpe;
             //comienzo la batalla entre los dos personajes seleccionados en cada round
+            System.Console.WriteLine("La batalla esta por empezar");
             for (int e = 0; e < 6 && grupo1[indiceUno].Salud>0 && grupo2[indiceDos].Salud>0; e++) // cantidad de ataques de cada personaje
             {
                 //hago un random de el atacante inicial
-                do
+                // do
+                // {
+                //     System.Console.WriteLine("Presione 0 para el ataque");
+                //     siguienteGolpe=Int32.Parse(Console.ReadLine());
+                // } while (siguienteGolpe!=0);
+                if (comienzo==0)
                 {
                     auxDos=indice1.Next(1,3);
-                } while (comienzo!=auxDos);
+                }else
+                {    
+                    do
+                    {
+                        auxDos=indice1.Next(1,3);
+                    } while (comienzo!=auxDos);   
+                }
                 comienzo=auxDos;
                 if(comienzo==1){ //el primer atacante pertenece a el grupo1
                     grupo2[indiceDos].Salud=grupo2[indiceDos].Salud-(MecanicaCombate(grupo1[indiceUno],grupo2[indiceDos]));
@@ -69,24 +130,24 @@ for (int i = 0; i < 3; i++) // son en total 3, los rounds
             //inicio el guardado de los personajes ganadores
             if (grupo1[indiceUno].Salud==0)
             {
-                Resultados.Insert(cantidad,new Personaje{Nombre=grupo2[indiceDos].Nombre,Apodo=grupo2[indiceDos].Apodo,FechaNacimiento=grupo2[indiceDos].FechaNacimiento});
+                Resultados.Insert(cantidad,new Personaje{Nombre=grupo2[indiceDos].Nombre,Apodo=grupo2[indiceDos].Apodo,FechaNacimiento=grupo2[indiceDos].FechaNacimiento, Salud=100, tipoDos=grupo2[indiceDos].tipoDos});
                 Resultados[cantidad].aleatorios();
                 Resultados[cantidad].valores();
                 cantidad++;
             }else if(grupo2[indiceDos].Salud==0){
-                Resultados.Insert(cantidad,new Personaje{Nombre=grupo1[indiceUno].Nombre,Apodo=grupo1[indiceUno].Apodo,FechaNacimiento=grupo1[indiceUno].FechaNacimiento});
+                Resultados.Insert(cantidad,new Personaje{Nombre=grupo1[indiceUno].Nombre,Apodo=grupo1[indiceUno].Apodo,FechaNacimiento=grupo1[indiceUno].FechaNacimiento, Salud=100,tipoDos=grupo1[indiceUno].tipoDos});
                 Resultados[cantidad].aleatorios();
                 Resultados[cantidad].valores();
                 cantidad++;
             }else if (grupo1[indiceUno].Salud>grupo2[indiceDos].Salud)
             {
-                Resultados.Insert(cantidad,new Personaje{Nombre=grupo1[indiceUno].Nombre,Apodo=grupo1[indiceUno].Apodo,FechaNacimiento=grupo1[indiceUno].FechaNacimiento});
+                Resultados.Insert(cantidad,new Personaje{Nombre=grupo1[indiceUno].Nombre,Apodo=grupo1[indiceUno].Apodo,FechaNacimiento=grupo1[indiceUno].FechaNacimiento,Salud=100, tipoDos=grupo1[indiceUno].tipoDos});
                 Resultados[cantidad].aleatorios();
                 Resultados[cantidad].valores();
                 cantidad++;
             }else if(grupo2[indiceDos].Salud>grupo1[indiceUno].Salud)
             {
-                Resultados.Insert(cantidad,new Personaje{Nombre=grupo2[indiceDos].Nombre,Apodo=grupo2[indiceDos].Apodo,FechaNacimiento=grupo2[indiceDos].FechaNacimiento});
+                Resultados.Insert(cantidad,new Personaje{Nombre=grupo2[indiceDos].Nombre,Apodo=grupo2[indiceDos].Apodo,FechaNacimiento=grupo2[indiceDos].FechaNacimiento, Salud=100,tipoDos=grupo2[indiceDos].tipoDos });
                 Resultados[cantidad].aleatorios();
                 Resultados[cantidad].valores();
                 cantidad++;
@@ -94,7 +155,7 @@ for (int i = 0; i < 3; i++) // son en total 3, los rounds
         }   
     }else //en caso de que hayan pasado la primera ronda,uso los ganadores
     {
-        if (cantidadPeleas==2) //la final de todo, se decidira el ganador Total
+        if (cantidadPeleas==1) //la final de todo, se decidira el ganador Total
         {
             for (int e = 0; e < 6 && ResultadosDos[0].Salud>0 && ResultadosDos[1].Salud>0; e++) // cantidad de ataques de cada personaje
             {
@@ -133,7 +194,7 @@ for (int i = 0; i < 3; i++) // son en total 3, los rounds
                 {
                     indiceUno=indice1.Next(0,2);
                     indiceDos=indice2.Next(2,4);
-                }while(controles[indiceUno] && controles[indiceDos]);
+                }while(!controles[indiceUno] && !controles[indiceDos]);
                 //indico cuales indices ya fueron usados
                 controles[indiceUno]=false;
                 controles[indiceDos]=false;
@@ -156,24 +217,24 @@ for (int i = 0; i < 3; i++) // son en total 3, los rounds
                 //inicio el guardado de los personajes ganadores
                 if (Resultados[indiceUno].Salud==0)
                 {
-                    ResultadosDos.Insert(cantidad,new Personaje{Nombre=Resultados[indiceDos].Nombre,Apodo=Resultados[indiceDos].Apodo,FechaNacimiento=Resultados[indiceDos].FechaNacimiento});
+                    ResultadosDos.Insert(cantidad,new Personaje{Nombre=Resultados[indiceDos].Nombre,Apodo=Resultados[indiceDos].Apodo,FechaNacimiento=Resultados[indiceDos].FechaNacimiento, tipoDos=Resultados[indiceDos].tipoDos});
                     ResultadosDos[cantidad].aleatorios();
                     ResultadosDos[cantidad].valores();
                     cantidad++;
                 }else if(Resultados[indiceDos].Salud==0){
-                    Resultados.Insert(cantidad,new Personaje{Nombre=Resultados[indiceUno].Nombre,Apodo=Resultados[indiceUno].Apodo,FechaNacimiento=Resultados[indiceUno].FechaNacimiento});
+                    Resultados.Insert(cantidad,new Personaje{Nombre=Resultados[indiceUno].Nombre,Apodo=Resultados[indiceUno].Apodo,FechaNacimiento=Resultados[indiceUno].FechaNacimiento,tipoDos=Resultados[indiceUno].tipoDos});
                     ResultadosDos[cantidad].aleatorios();
                     ResultadosDos[cantidad].valores();
                     cantidad++;
                 }else if (Resultados[indiceUno].Salud>Resultados[indiceDos].Salud)
                 {
-                    ResultadosDos.Insert(cantidad,new Personaje{Nombre=Resultados[indiceUno].Nombre,Apodo=Resultados[indiceUno].Apodo,FechaNacimiento=Resultados[indiceUno].FechaNacimiento});
+                    ResultadosDos.Insert(cantidad,new Personaje{Nombre=Resultados[indiceUno].Nombre,Apodo=Resultados[indiceUno].Apodo,FechaNacimiento=Resultados[indiceUno].FechaNacimiento,tipoDos=Resultados[indiceUno].tipoDos});
                     ResultadosDos[cantidad].aleatorios();
                     ResultadosDos[cantidad].valores();
                     cantidad++;
                 }else if(Resultados[indiceDos].Salud>Resultados[indiceUno].Salud)
                 {
-                    ResultadosDos.Insert(cantidad,new Personaje{Nombre=Resultados[indiceDos].Nombre,Apodo=Resultados[indiceDos].Apodo,FechaNacimiento=Resultados[indiceDos].FechaNacimiento});
+                    ResultadosDos.Insert(cantidad,new Personaje{Nombre=Resultados[indiceDos].Nombre,Apodo=Resultados[indiceDos].Apodo,FechaNacimiento=Resultados[indiceDos].FechaNacimiento, tipoDos=Resultados[indiceDos].tipoDos});
                     ResultadosDos[cantidad].aleatorios();
                     ResultadosDos[cantidad].valores();
                     cantidad++;
@@ -183,7 +244,7 @@ for (int i = 0; i < 3; i++) // son en total 3, los rounds
         
     }
     cantidadPeleas=cantidadPeleas/2;
-    controles=control(cantidadPeleas);
+    controles=control(cantidadPeleas*2);
     cantidad=0;
 }
 
@@ -200,6 +261,8 @@ int MecanicaCombate(Personaje atacante, Personaje defensor){
     int valorAtaque=PoderDisparo*efectividadDisparo;
     int poderDefensa=defensor.Armadura*defensor.Velocidad;
     int danoProvocado=(((valorAtaque*efectividadDisparo)-poderDefensa)/MaximoDanoProvocable)*100;
+    System.Console.WriteLine("El "+ atacante.tipoDos+" ataco a :"+ defensor.tipoDos);
+    System.Console.WriteLine("Restandole a el mismo : "+ danoProvocado);
     return danoProvocado;
 }
 //inicializo la lista en true, donde va a representar lo que es los indices de los personajes
@@ -207,7 +270,7 @@ List<bool> control(int cantidad){
     List<bool> aux=new List<bool>();
     for (int i = 0; i < cantidad; i++)
     {
-        aux.Insert(i, true);
+        aux.Insert(i,true);
     }
     return aux;
 }
@@ -225,7 +288,8 @@ Personaje cargarDatos(){
     grupo.Apodo= grupo.Nombre.Substring(auxTipos.Next(1,3));
     grupo.aleatorios();
     grupo.valores();
-    switch (auxTipos.Next(1,6))
+    int auxTiposdos=auxTipos.Next(1,6);
+    switch (auxTiposdos)
     {
         case 1:
             grupo.tipoDos=Tipos.valquiria;
@@ -273,12 +337,17 @@ class caracteristicas
         get{
             return velocidad;
         }
-        
+        set{
+            velocidad=value;
+        }
     }
     private int destreza;
     public int Destreza{
         get{
             return destreza;
+        }
+        set{
+            destreza=value;
         }
     }
     private int fuerza;
@@ -286,17 +355,26 @@ class caracteristicas
         get{
             return fuerza;
         }
+        set{
+            fuerza=value;
+        }
     }
     private int nivel;
     public int Nivel{
         get{
             return nivel;
         }
+        set{
+            nivel=value;
+        }
     }
     private int armadura;
     public int Armadura{
         get{
             return armadura;
+        }
+        set{
+            armadura=value;
         }
     }
     public void valores(){
@@ -357,6 +435,9 @@ class Personaje:caracteristicas// con esto indicamos que el personaje tiene las 
     public int Edad{
         get{
             return edad;
+        }
+        set{
+            edad=value;
         }
     }
     private int salud;
