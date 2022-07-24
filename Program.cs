@@ -307,9 +307,9 @@ int MecanicaCombate(Personaje atacante, Personaje defensor){
     int siguienteGolpe=0;
     do
     {
-        System.Console.WriteLine("Apreta una letra para comenzar el ataque");
+        System.Console.WriteLine("Apreta un numero para comenzar el ataque que sea distinto de 0");
         siguienteGolpe=Int32.Parse(Console.ReadLine());
-    } while (siguienteGolpe!=0);
+    } while (siguienteGolpe==0);
     int PoderDisparo=atacante.Destreza* atacante.Fuerza* atacante.Nivel;
     Random aleatorio=new Random();
     int efectividadDisparo=aleatorio.Next(1,101);
