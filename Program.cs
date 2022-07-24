@@ -4,8 +4,9 @@ using System.Text.Json.Serialization;
 const int MaximoDanoProvocable=5000;
 List<Personaje> grupo1= new List<Personaje>();
 List<Personaje> grupo2= new List<Personaje>();
-System.Console.WriteLine("Como queres que se carguen los personajes? 1-aleatoriamente, 2-json");
-int boton=Int32.Parse(Console.ReadLine());
+//System.Console.WriteLine("Como queres que se carguen los personajes? 1-aleatoriamente, 2-json");
+//int boton=Int32.Parse(Console.ReadLine());
+int boton=2;
 //incio el guardado de los datos en las listas para personajes aleatorios
 if (boton==1)
 {
@@ -102,11 +103,6 @@ for (int i = 0; i < 3; i++) // son en total 3, los rounds
             for (int e = 0; e < 6 && grupo1[indiceUno].Salud>0 && grupo2[indiceDos].Salud>0; e++) // cantidad de ataques de cada personaje
             {
                 //hago un random de el atacante inicial
-                do
-                {
-                    System.Console.WriteLine("Presione 0 para el ataque");
-                    siguienteGolpe=Int32.Parse(Console.ReadLine());
-                } while (siguienteGolpe!=0);
                 //la variable comienzo indica cual de los dos atacantes empezara
                 if (comienzo==0)
                 {
@@ -129,7 +125,6 @@ for (int i = 0; i < 3; i++) // son en total 3, los rounds
             //inicio el guardado de los personajes ganadores
             if (grupo1[indiceUno].Salud==grupo1[indiceUno].Salud)
             {
-                
                 auxDos=indice1.Next(1,3);
                 comienzo=auxDos;
                 if(comienzo==1){ //el primer atacante pertenece a el grupo1
@@ -259,24 +254,24 @@ for (int i = 0; i < 3; i++) // son en total 3, los rounds
                 //no hay un empate
                 if (Resultados[indiceUno].Salud<=0)
                 {
-                    ResultadosDos.Insert(cantidad,new Personaje{Nombre=Resultados[indiceDos].Nombre,Apodo=Resultados[indiceDos].Apodo,FechaNacimiento=Resultados[indiceDos].FechaNacimiento, tipoDos=Resultados[indiceDos].tipoDos});
+                    ResultadosDos.Insert(cantidad,new Personaje{Nombre=Resultados[indiceDos].Nombre,Apodo=Resultados[indiceDos].Apodo,FechaNacimiento=Resultados[indiceDos].FechaNacimiento, tipoDos=Resultados[indiceDos].tipoDos, Salud=100});
                     ResultadosDos[cantidad].aleatorios();
                     ResultadosDos[cantidad].valores();
                     cantidad++;
                 }else if(Resultados[indiceDos].Salud<=0){
-                    Resultados.Insert(cantidad,new Personaje{Nombre=Resultados[indiceUno].Nombre,Apodo=Resultados[indiceUno].Apodo,FechaNacimiento=Resultados[indiceUno].FechaNacimiento,tipoDos=Resultados[indiceUno].tipoDos});
+                    ResultadosDos.Insert(cantidad,new Personaje{Nombre=Resultados[indiceUno].Nombre,Apodo=Resultados[indiceUno].Apodo,FechaNacimiento=Resultados[indiceUno].FechaNacimiento,tipoDos=Resultados[indiceUno].tipoDos, Salud=100});
                     ResultadosDos[cantidad].aleatorios();
                     ResultadosDos[cantidad].valores();
                     cantidad++;
                 }else if (Resultados[indiceUno].Salud>Resultados[indiceDos].Salud)
                 {
-                    ResultadosDos.Insert(cantidad,new Personaje{Nombre=Resultados[indiceUno].Nombre,Apodo=Resultados[indiceUno].Apodo,FechaNacimiento=Resultados[indiceUno].FechaNacimiento,tipoDos=Resultados[indiceUno].tipoDos});
+                    ResultadosDos.Insert(cantidad,new Personaje{Nombre=Resultados[indiceUno].Nombre,Apodo=Resultados[indiceUno].Apodo,FechaNacimiento=Resultados[indiceUno].FechaNacimiento,tipoDos=Resultados[indiceUno].tipoDos, Salud=100});
                     ResultadosDos[cantidad].aleatorios();
                     ResultadosDos[cantidad].valores();
                     cantidad++;
                 }else if(Resultados[indiceDos].Salud>Resultados[indiceUno].Salud)
                 {
-                    ResultadosDos.Insert(cantidad,new Personaje{Nombre=Resultados[indiceDos].Nombre,Apodo=Resultados[indiceDos].Apodo,FechaNacimiento=Resultados[indiceDos].FechaNacimiento, tipoDos=Resultados[indiceDos].tipoDos});
+                    ResultadosDos.Insert(cantidad,new Personaje{Nombre=Resultados[indiceDos].Nombre,Apodo=Resultados[indiceDos].Apodo,FechaNacimiento=Resultados[indiceDos].FechaNacimiento, tipoDos=Resultados[indiceDos].tipoDos, Salud=100});
                     ResultadosDos[cantidad].aleatorios();
                     ResultadosDos[cantidad].valores();
                     cantidad++;
