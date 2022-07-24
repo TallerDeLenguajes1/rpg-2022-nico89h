@@ -71,9 +71,11 @@ for (int i = 0; i < 3; i++) // son en total 3, los rounds
 {
     if (i==0) //primera iteracion, utilizo los valores de los grupos
     {
+        System.Console.WriteLine("Inicio de los octavos");
         for (int t = 0; t < cantidadPeleas; t++) // realizo las pelea de cada round
         {
             //relizo el control si es que se uso un elemento o no;
+            System.Console.WriteLine("Pelea numero: "+t+1);
             do      
             {
                 indiceUno=indice1.Next(0,4);
@@ -136,23 +138,27 @@ for (int i = 0; i < 3; i++) // son en total 3, los rounds
             }
             if (grupo1[indiceUno].Salud<=0)
             {
+                System.Console.WriteLine("Ganador de el round: "+ grupo1[indiceUno].tipoDos);
                 Resultados.Insert(cantidad,new Personaje{Nombre=grupo2[indiceDos].Nombre,Apodo=grupo2[indiceDos].Apodo,FechaNacimiento=grupo2[indiceDos].FechaNacimiento, Salud=100, tipoDos=grupo2[indiceDos].tipoDos});
                 Resultados[cantidad].aleatorios();
                 Resultados[cantidad].valores();
                 cantidad++;//sera el indice de resultado
             }else if(grupo2[indiceDos].Salud<=0){
+                System.Console.WriteLine("Ganador de el round: "+ grupo2[indiceDos].tipoDos);                
                 Resultados.Insert(cantidad,new Personaje{Nombre=grupo1[indiceUno].Nombre,Apodo=grupo1[indiceUno].Apodo,FechaNacimiento=grupo1[indiceUno].FechaNacimiento, Salud=100,tipoDos=grupo1[indiceUno].tipoDos});
                 Resultados[cantidad].aleatorios();
                 Resultados[cantidad].valores();
                 cantidad++;
             }else if (grupo1[indiceUno].Salud>grupo2[indiceDos].Salud)
             {
+                System.Console.WriteLine("Ganador de el round: "+ grupo1[indiceUno].tipoDos);
                 Resultados.Insert(cantidad,new Personaje{Nombre=grupo1[indiceUno].Nombre,Apodo=grupo1[indiceUno].Apodo,FechaNacimiento=grupo1[indiceUno].FechaNacimiento,Salud=100, tipoDos=grupo1[indiceUno].tipoDos});
                 Resultados[cantidad].aleatorios();
                 Resultados[cantidad].valores();
                 cantidad++;
             }else if(grupo2[indiceDos].Salud>grupo1[indiceUno].Salud)
             {
+                System.Console.WriteLine("Ganador de el round: "+ grupo2[indiceDos].tipoDos);
                 Resultados.Insert(cantidad,new Personaje{Nombre=grupo2[indiceDos].Nombre,Apodo=grupo2[indiceDos].Apodo,FechaNacimiento=grupo2[indiceDos].FechaNacimiento, Salud=100,tipoDos=grupo2[indiceDos].tipoDos });
                 Resultados[cantidad].aleatorios();
                 Resultados[cantidad].valores();
@@ -161,6 +167,7 @@ for (int i = 0; i < 3; i++) // son en total 3, los rounds
         }   
     }else //en caso de que hayan pasado la primera ronda,uso los ganadores
     {
+        System.Console.WriteLine("Inicio de el combate final");
         if (cantidadPeleas==1) //la final de todo, se decidira el ganador Total
         {
             for (int e = 0; e < 6 && ResultadosDos[0].Salud>0 && ResultadosDos[1].Salud>0; e++) // cantidad de ataques de cada personaje
@@ -207,6 +214,7 @@ for (int i = 0; i < 3; i++) // son en total 3, los rounds
             }
         }else
         {
+            System.Console.WriteLine("Inicio de Las semis finales");
             for (int t = 0; t < cantidadPeleas; t++) // realizo la pelea de cada round
             {
                 //relizo el control si es que se uso un elemento o no;
@@ -254,23 +262,27 @@ for (int i = 0; i < 3; i++) // son en total 3, los rounds
                 //no hay un empate
                 if (Resultados[indiceUno].Salud<=0)
                 {
+                    System.Console.WriteLine("El ganador de el round es : "+ Resultados[indiceUno].tipoDos);
                     ResultadosDos.Insert(cantidad,new Personaje{Nombre=Resultados[indiceDos].Nombre,Apodo=Resultados[indiceDos].Apodo,FechaNacimiento=Resultados[indiceDos].FechaNacimiento, tipoDos=Resultados[indiceDos].tipoDos, Salud=100});
                     ResultadosDos[cantidad].aleatorios();
                     ResultadosDos[cantidad].valores();
                     cantidad++;
                 }else if(Resultados[indiceDos].Salud<=0){
+                    System.Console.WriteLine("El ganador de el round es : "+ Resultados[indiceDos].tipoDos);
                     ResultadosDos.Insert(cantidad,new Personaje{Nombre=Resultados[indiceUno].Nombre,Apodo=Resultados[indiceUno].Apodo,FechaNacimiento=Resultados[indiceUno].FechaNacimiento,tipoDos=Resultados[indiceUno].tipoDos, Salud=100});
                     ResultadosDos[cantidad].aleatorios();
                     ResultadosDos[cantidad].valores();
                     cantidad++;
                 }else if (Resultados[indiceUno].Salud>Resultados[indiceDos].Salud)
                 {
+                    System.Console.WriteLine("El ganador de el round es : "+ Resultados[indiceUno].tipoDos);
                     ResultadosDos.Insert(cantidad,new Personaje{Nombre=Resultados[indiceUno].Nombre,Apodo=Resultados[indiceUno].Apodo,FechaNacimiento=Resultados[indiceUno].FechaNacimiento,tipoDos=Resultados[indiceUno].tipoDos, Salud=100});
                     ResultadosDos[cantidad].aleatorios();
                     ResultadosDos[cantidad].valores();
                     cantidad++;
                 }else if(Resultados[indiceDos].Salud>Resultados[indiceUno].Salud)
                 {
+                    System.Console.WriteLine("El ganador de el round es : "+ Resultados[indiceDos].tipoDos);
                     ResultadosDos.Insert(cantidad,new Personaje{Nombre=Resultados[indiceDos].Nombre,Apodo=Resultados[indiceDos].Apodo,FechaNacimiento=Resultados[indiceDos].FechaNacimiento, tipoDos=Resultados[indiceDos].tipoDos, Salud=100});
                     ResultadosDos[cantidad].aleatorios();
                     ResultadosDos[cantidad].valores();
@@ -292,6 +304,12 @@ for (int i = 0; i < 3; i++) // son en total 3, los rounds
 //inicio de funciones
 //funcion para obtener la salud del personaje
 int MecanicaCombate(Personaje atacante, Personaje defensor){
+    int siguienteGolpe=0;
+    do
+    {
+        System.Console.WriteLine("Apreta una letra para comenzar el ataque");
+        siguienteGolpe=Int32.Parse(Console.ReadLine());
+    } while (siguienteGolpe!=0);
     int PoderDisparo=atacante.Destreza* atacante.Fuerza* atacante.Nivel;
     Random aleatorio=new Random();
     int efectividadDisparo=aleatorio.Next(1,101);
