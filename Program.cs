@@ -69,16 +69,14 @@ List<Personaje> ResultadosDos= new List<Personaje>();
 for (int i = 0; i < 3; i++) // son en total 3, los rounds  
 {
     if (i==0) //primera iteracion, utilizo los valores de los grupos
-    {    
-        for (int t = 0; t < cantidadPeleas; t++) // realizo la pelea de cada round
+    {
+        for (int t = 0; t < cantidadPeleas; t++) // realizo las pelea de cada round
         {
             //relizo el control si es que se uso un elemento o no;
             do      
             {
                 indiceUno=indice1.Next(0,4);
-                System.Console.WriteLine(indiceUno);
                 indiceDos=indice2.Next(4,8);
-                System.Console.WriteLine(indiceDos);
             }while(!controles[indiceUno] && !controles[indiceDos]);
             //indico cuales indices ya fueron usados
             controles[indiceUno]=false;
@@ -98,17 +96,18 @@ for (int i = 0; i < 3; i++) // son en total 3, los rounds
                     indiceDos=3;
                     break;
             }
-            int siguienteGolpe;
             //comienzo la batalla entre los dos personajes seleccionados en cada round
+            int siguienteGolpe;
             System.Console.WriteLine("La batalla esta por empezar");
             for (int e = 0; e < 6 && grupo1[indiceUno].Salud>0 && grupo2[indiceDos].Salud>0; e++) // cantidad de ataques de cada personaje
             {
                 //hago un random de el atacante inicial
-                // do
-                // {
-                //     System.Console.WriteLine("Presione 0 para el ataque");
-                //     siguienteGolpe=Int32.Parse(Console.ReadLine());
-                // } while (siguienteGolpe!=0);
+                do
+                {
+                    System.Console.WriteLine("Presione 0 para el ataque");
+                    siguienteGolpe=Int32.Parse(Console.ReadLine());
+                } while (siguienteGolpe!=0);
+                //la variable comienzo indica cual de los dos atacantes empezara
                 if (comienzo==0)
                 {
                     auxDos=indice1.Next(1,3);
@@ -128,13 +127,25 @@ for (int i = 0; i < 3; i++) // son en total 3, los rounds
                 }
             }
             //inicio el guardado de los personajes ganadores
-            if (grupo1[indiceUno].Salud==0)
+            if (grupo1[indiceUno].Salud==grupo1[indiceUno].Salud)
+            {
+                
+                auxDos=indice1.Next(1,3);
+                comienzo=auxDos;
+                if(comienzo==1){ //el primer atacante pertenece a el grupo1
+                    grupo2[indiceDos].Salud=0;
+                }else //el segundo atacante es del grupo 2
+                {
+                    grupo1[indiceUno].Salud=0;
+                }
+            }
+            if (grupo1[indiceUno].Salud<=0)
             {
                 Resultados.Insert(cantidad,new Personaje{Nombre=grupo2[indiceDos].Nombre,Apodo=grupo2[indiceDos].Apodo,FechaNacimiento=grupo2[indiceDos].FechaNacimiento, Salud=100, tipoDos=grupo2[indiceDos].tipoDos});
                 Resultados[cantidad].aleatorios();
                 Resultados[cantidad].valores();
-                cantidad++;
-            }else if(grupo2[indiceDos].Salud==0){
+                cantidad++;//sera el indice de resultado
+            }else if(grupo2[indiceDos].Salud<=0){
                 Resultados.Insert(cantidad,new Personaje{Nombre=grupo1[indiceUno].Nombre,Apodo=grupo1[indiceUno].Apodo,FechaNacimiento=grupo1[indiceUno].FechaNacimiento, Salud=100,tipoDos=grupo1[indiceUno].tipoDos});
                 Resultados[cantidad].aleatorios();
                 Resultados[cantidad].valores();
@@ -173,10 +184,24 @@ for (int i = 0; i < 3; i++) // son en total 3, los rounds
                 }
             }
             //inicio de el ganador Total
-            if (ResultadosDos[0].Salud==0)
+            //caso de que haya un empate
+            if (ResultadosDos[0].Salud==ResultadosDos[1].Salud)
+            {
+                auxDos=indice1.Next(1,3);
+                comienzo=auxDos;
+                if(comienzo==1){//el primer atacante pertenece a el grupo1
+                    ResultadosDos[0].Salud=0;
+                }else //el segundo atacante es del grupo 2
+                {
+                    ResultadosDos[1].Salud=0;
+                }
+            }
+            //caso de que no hay un empate
+
+            if (ResultadosDos[0].Salud<=0)
             {
                 mostrarGanador(ResultadosDos[1]);   
-            }else if(ResultadosDos[1].Salud==0){
+            }else if(ResultadosDos[1].Salud<=0){
                 mostrarGanador(ResultadosDos[0]);
             }else if (ResultadosDos[0].Salud>ResultadosDos[1].Salud)
             {
@@ -215,13 +240,30 @@ for (int i = 0; i < 3; i++) // son en total 3, los rounds
                     }
                 }
                 //inicio el guardado de los personajes ganadores
-                if (Resultados[indiceUno].Salud==0)
+                //hay un empate en la salud de ambos personajes
+                if (Resultados[indiceUno].Salud==Resultados[indiceDos].Salud)
+                {
+                    //el ganador sera de manera aleatorio
+                    do
+                    {
+                        auxDos=indice1.Next(1,3);
+                    } while (comienzo!=auxDos);
+                    comienzo=auxDos;
+                    if(comienzo==1){ //el primer atacante pertenece a el Resultados
+                        Resultados[indiceDos].Salud=0;
+                    }else //el segundo atacante es del grupo 2
+                    {
+                        Resultados[indiceUno].Salud=0;
+                    }
+                }
+                //no hay un empate
+                if (Resultados[indiceUno].Salud<=0)
                 {
                     ResultadosDos.Insert(cantidad,new Personaje{Nombre=Resultados[indiceDos].Nombre,Apodo=Resultados[indiceDos].Apodo,FechaNacimiento=Resultados[indiceDos].FechaNacimiento, tipoDos=Resultados[indiceDos].tipoDos});
                     ResultadosDos[cantidad].aleatorios();
                     ResultadosDos[cantidad].valores();
                     cantidad++;
-                }else if(Resultados[indiceDos].Salud==0){
+                }else if(Resultados[indiceDos].Salud<=0){
                     Resultados.Insert(cantidad,new Personaje{Nombre=Resultados[indiceUno].Nombre,Apodo=Resultados[indiceUno].Apodo,FechaNacimiento=Resultados[indiceUno].FechaNacimiento,tipoDos=Resultados[indiceUno].tipoDos});
                     ResultadosDos[cantidad].aleatorios();
                     ResultadosDos[cantidad].valores();
