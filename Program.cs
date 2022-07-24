@@ -167,9 +167,9 @@ for (int i = 0; i < 3; i++) // son en total 3, los rounds
         }   
     }else //en caso de que hayan pasado la primera ronda,uso los ganadores
     {
-        System.Console.WriteLine("Inicio de el combate final");
         if (cantidadPeleas==1) //la final de todo, se decidira el ganador Total
         {
+            System.Console.WriteLine("Inicio de el combate final");
             for (int e = 0; e < 6 && ResultadosDos[0].Salud>0 && ResultadosDos[1].Salud>0; e++) // cantidad de ataques de cada personaje
             {
                 //hago un random de el atacante inicial
