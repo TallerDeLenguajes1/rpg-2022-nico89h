@@ -47,13 +47,29 @@ if (boton==1)
 
 
 
+
+
+
 //fin de el guardado de datos
 
-// grupo1.AddRange(grupo2);
-// string nombre="jugadores.json";
-// string text=JsonSerializer.Serialize(grupo1);
-// File.WriteAllText(nombre,text);
-//inicio con el combate de los jugadores
+int controlApi;
+System.Console.WriteLine("Quiere ver o visualizar los valores de la api? Presione 0 para ver");
+controlApi=Int32.Parse(Console.ReadLine());
+if (controlApi==0)
+{
+    
+}
+
+
+
+
+
+//
+
+
+
+
+
 Random indice1=new Random();
 Random indice2=new Random();
 List<bool> controles= new List<bool>();
@@ -223,6 +239,7 @@ for (int i = 0; i < 3; i++) // son en total 3, los rounds
                     indiceUno=indice1.Next(0,2);
                     indiceDos=indice2.Next(2,4);
                 }while(!controles[indiceUno] && !controles[indiceDos]);
+                
                 //indico cuales indices ya fueron usados
                 controles[indiceUno]=false;
                 controles[indiceDos]=false;
@@ -301,7 +318,10 @@ for (int i = 0; i < 3; i++) // son en total 3, los rounds
 
 
 
+
+
 //inicio de funciones
+
 //funcion para obtener la salud del personaje
 int MecanicaCombate(Personaje atacante, Personaje defensor){
     int siguienteGolpe=0;
@@ -368,7 +388,7 @@ Personaje cargarDatos(){
 }
 void mostrarGanador(Personaje ganador){
     //inicio de mostrar ganador
-    System.Console.WriteLine("El ganador Total, de todos es: ");
+    System.Console.WriteLine("El ganador Total, de todos ");
     System.Console.WriteLine("Obteniendo el TRONO DE HIERRO, es: ....");
     System.Console.WriteLine(ganador.tipoDos);
     System.Console.WriteLine("Cuyo nombre es: "+ ganador.Nombre);
