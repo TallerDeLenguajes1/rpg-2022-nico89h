@@ -6,9 +6,8 @@ using System.Net;
 const int MaximoDanoProvocable=5000;
 List<Personaje> grupo1= new List<Personaje>();
 List<Personaje> grupo2= new List<Personaje>();
-//System.Console.WriteLine("Como queres que se carguen los personajes? 1-aleatoriamente, 2-json");
-//int boton=Int32.Parse(Console.ReadLine());
-int boton=2;
+System.Console.WriteLine("Como queres que se carguen los personajes? 1-aleatoriamente, 2-json");
+int boton=Int32.Parse(Console.ReadLine());
 //incio el guardado de los datos en las listas para personajes aleatorios
 if (boton==1)
 {
@@ -56,11 +55,9 @@ if (boton==1)
 
 
 int controlApi;
-System.Console.WriteLine("Quiere ver o visualizar los valores de la api? Presione 0 para ver, indicara ña cantidad de personajes que tienen un nombre igual a el de la clase");
+System.Console.WriteLine("Quiere ver o visualizar los valores de la api? Presione 0 para ver, indicara la cantidad de personajes que tienen un nombre igual a el de la clase");
 controlApi=Int32.Parse(Console.ReadLine());
 int cantidadElixir=0;
-int j=0;
-int k=0;
 List<string> nombres= new List<string>();
 if (controlApi==0)
 {
@@ -84,22 +81,22 @@ if (controlApi==0)
 
                     var elixir= JsonSerializer.Deserialize<List<Elixir>>(respondeBody);
                     //inicio de el control de el elixir
+                    int l = 0;
                     for (int p = 0; p < elixir.Count; p++) // recorro los datos de la lista recibida de la api
                     {
+                        System.Console.WriteLine("Nombre : "+ elixir[p].Name);
                         //controla la cantidad de veces que aparecen los nombres y cuales son 
-                        if (j>3 && k>3)
+                        for (l=0; l < 4; l++) //recorro los personajes
                         {
-                            j=0;
-                            k=0;
+                            if (elixir[p].Name==grupo1[l].Nombre || elixir[p].Name==grupo2[l].Nombre)
+                            {
+                                nombres.Add(elixir[p].Name);
+                                cantidadElixir++;
+                            }
                         }
-                        if (grupo1[j].Nombre==elixir[p].Name || grupo2[k].Nombre==elixir[p].Name)
-                        {
-                            nombres.Add(elixir[p].Name); //añado el nombre que coincide con cualquier personaje
-                            cantidadElixir++;
-                        }
-                        j++;
-                        k++;
+                        l=0;
                     }
+                    System.Console.WriteLine("ola"+ nombres[0]);
                     if (cantidadElixir>0)
                     {
                         System.Console.WriteLine("La cantidad de nombres que coinciden con los nombres de elixir son: "+ cantidadElixir);
