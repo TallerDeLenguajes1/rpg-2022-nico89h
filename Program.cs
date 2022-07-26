@@ -6,9 +6,10 @@ using System.Net;
 const int MaximoDanoProvocable=5000;
 List<Personaje> grupo1= new List<Personaje>();
 List<Personaje> grupo2= new List<Personaje>();
-System.Console.WriteLine("Como queres que se carguen los personajes? 1-aleatoriamente, 2-json");
-int boton=Int32.Parse(Console.ReadLine());
+// System.Console.WriteLine("Como queres que se carguen los personajes? 1-aleatoriamente, 2-json");
+// int boton=Int32.Parse(Console.ReadLine());
 //incio el guardado de los datos en las listas para personajes aleatorios
+int boton=2;
 if (boton==1)
 {
     Personaje grupo= new Personaje();
@@ -54,9 +55,9 @@ if (boton==1)
 //fin de el guardado de datos
 
 
-int controlApi;
-System.Console.WriteLine("Quiere ver o visualizar los valores de la api? Presione 0 para ver, indicara la cantidad de personajes que tienen un nombre igual a el de la clase");
-controlApi=Int32.Parse(Console.ReadLine());
+int controlApi=2;
+// System.Console.WriteLine("Quiere ver o visualizar los valores de la api? Presione 0 para ver, indicara la cantidad de personajes que tienen un nombre igual a el de la clase");
+// controlApi=Int32.Parse(Console.ReadLine());
 int cantidadElixir=0;
 List<string> nombres= new List<string>();
 if (controlApi==0)
@@ -84,7 +85,7 @@ if (controlApi==0)
                     int l = 0;
                     for (int p = 0; p < elixir.Count; p++) // recorro los datos de la lista recibida de la api
                     {
-                        System.Console.WriteLine("Nombre : "+ elixir[p].Name);
+                        //System.Console.WriteLine("Nombre : "+ elixir[p].Name);
                         //controla la cantidad de veces que aparecen los nombres y cuales son 
                         for (l=0; l < 4; l++) //recorro los personajes
                         {
@@ -96,7 +97,7 @@ if (controlApi==0)
                         }
                         l=0;
                     }
-                    System.Console.WriteLine("ola"+ nombres[0]);
+                    //los nombres q apareceran son 3, en caso de que se use el json
                     if (cantidadElixir>0)
                     {
                         System.Console.WriteLine("La cantidad de nombres que coinciden con los nombres de elixir son: "+ cantidadElixir);
@@ -124,6 +125,10 @@ if (controlApi==0)
 
 
 
+string nombreArchivo="ganadores.csv";// nombre de el archivo
+if(!File.Exists(nombreArchivo)){
+    File.Create(nombreArchivo); //contorlo que exista el archivo y en caso de no existir se crea
+}
 
 Random indice1=new Random();
 Random indice2=new Random();
@@ -146,7 +151,7 @@ for (int i = 0; i < 3; i++) // son en total 3, los rounds
         for (int t = 0; t < cantidadPeleas; t++) // realizo las pelea de cada round
         {
             //relizo el control si es que se uso un elemento o no;
-            System.Console.WriteLine("Pelea numero: "+t+1);
+            System.Console.WriteLine("Pelea numero: "+t);
             do      
             {
                 indiceUno=indice1.Next(0,4);
@@ -236,10 +241,12 @@ for (int i = 0; i < 3; i++) // son en total 3, los rounds
                 cantidad++;
             }
         }   
-    }else //en caso de que hayan pasado la primera ronda,uso los ganadores
+    }else//en caso de que hayan pasado la primera ronda,uso los ganadores
     {
         if (cantidadPeleas==1) //la final de todo, se decidira el ganador Total
         {
+            nombres.Add(ResultadosDos[0].Nombre);
+            nombres.Add(ResultadosDos[1].Nombre);
             System.Console.WriteLine("Inicio de el combate final");
             for (int e = 0; e < 6 && ResultadosDos[0].Salud>0 && ResultadosDos[1].Salud>0; e++) // cantidad de ataques de cada personaje
             {
@@ -274,18 +281,30 @@ for (int i = 0; i < 3; i++) // son en total 3, los rounds
             if (ResultadosDos[0].Salud<=0)
             {
                 mostrarGanador(ResultadosDos[1]);   
+                nombres.Add(ResultadosDos[1].Nombre);
             }else if(ResultadosDos[1].Salud<=0){
                 mostrarGanador(ResultadosDos[0]);
+                nombres.Add(ResultadosDos[0].Nombre);
             }else if (ResultadosDos[0].Salud>ResultadosDos[1].Salud)
             {
                 mostrarGanador(ResultadosDos[0]);
+                nombres.Add(ResultadosDos[0].Nombre);
             }else if(ResultadosDos[1].Salud>ResultadosDos[0].Salud)
             {
                 mostrarGanador(ResultadosDos[1]);
+                nombres.Add(ResultadosDos[0].Nombre);
             }
         }else
         {
             System.Console.WriteLine("Inicio de Las semis finales");
+            if (nombres.Count>0)
+            {
+                nombres.Clear();//elimino los nombres guardados en la api   
+            }
+            for (int v = 0; v < 4; v++) //añado los nombres de los personajes ganadores en la lista nombres
+            {
+                nombres.Add(Resultados[v].Nombre);
+            }
             for (int t = 0; t < cantidadPeleas; t++) // realizo la pelea de cada round
             {
                 //relizo el control si es que se uso un elemento o no;
@@ -369,8 +388,28 @@ for (int i = 0; i < 3; i++) // son en total 3, los rounds
     cantidad=0;
 }
 
-
-
+//como en la lista de strings nombre ya guardo los nombres voy a escribir el archivo ganadores.csv
+File.WriteAllLines(nombreArchivo,nombres);
+nombres.Clear();
+System.Console.WriteLine("Quiere ver los datos que hay en el archivo ganadores.csv?");
+int controlGanadores=Int32.Parse(Console.ReadLine());
+int indiceTorneo=0;
+if (controlGanadores==0)
+{
+    string [] nombresaux=File.ReadAllLines(nombreArchivo);
+    foreach (var item in nombresaux)
+    {
+        if (indiceTorneo<4)//cuartos
+        {
+            System.Console.WriteLine("ganadores de cuartos: "+ nombresaux[indiceTorneo]);
+        }else if(indiceTorneo<6){ // semis
+            System.Console.WriteLine("ganadores de semis: "+ nombresaux[indiceTorneo]);
+        }else{
+            System.Console.WriteLine("ganador: "+ nombresaux[indiceTorneo]);
+        }
+        indiceTorneo++;
+    }
+}
 
 
 
@@ -379,12 +418,12 @@ for (int i = 0; i < 3; i++) // son en total 3, los rounds
 
 //funcion para obtener la salud del personaje
 int MecanicaCombate(Personaje atacante, Personaje defensor){
-    int siguienteGolpe=0;
-    do
-    {
-        System.Console.WriteLine("Apreta un numero para comenzar el ataque que sea distinto de 0");
-        siguienteGolpe=Int32.Parse(Console.ReadLine());
-    } while (siguienteGolpe==0);
+    // int siguienteGolpe=0;
+    // do
+    // {
+    //     System.Console.WriteLine("Apreta un numero para comenzar el ataque que sea distinto de 0");
+    //     siguienteGolpe=Int32.Parse(Console.ReadLine());
+    // } while (siguienteGolpe==0);
     int PoderDisparo=atacante.Destreza* atacante.Fuerza* atacante.Nivel;
     Random aleatorio=new Random();
     int efectividadDisparo=aleatorio.Next(1,101);
