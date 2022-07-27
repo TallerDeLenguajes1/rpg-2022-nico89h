@@ -6,10 +6,10 @@ using System.Net;
 const int MaximoDanoProvocable=5000;
 List<Personaje> grupo1= new List<Personaje>();
 List<Personaje> grupo2= new List<Personaje>();
-// System.Console.WriteLine("Como queres que se carguen los personajes? 1-aleatoriamente, 2-json");
-// int boton=Int32.Parse(Console.ReadLine());
+System.Console.WriteLine("Como queres que se carguen los personajes? 1-aleatoriamente, 2-json");
+int boton=Int32.Parse(Console.ReadLine());
 //incio el guardado de los datos en las listas para personajes aleatorios
-int boton=2;
+//int boton=2;
 if (boton==1)
 {
     Personaje grupo= new Personaje();
@@ -55,9 +55,9 @@ if (boton==1)
 //fin de el guardado de datos
 
 
-int controlApi=2;
-// System.Console.WriteLine("Quiere ver o visualizar los valores de la api? Presione 0 para ver, indicara la cantidad de personajes que tienen un nombre igual a el de la clase");
-// controlApi=Int32.Parse(Console.ReadLine());
+int controlApi;
+System.Console.WriteLine("Quiere ver o visualizar los valores de la api? Presione 0 para ver, indicara la cantidad de personajes que tienen un nombre igual a el de la clase");
+controlApi=Int32.Parse(Console.ReadLine());
 int cantidadElixir=0;
 List<string> nombres= new List<string>();
 if (controlApi==0)
@@ -389,13 +389,14 @@ for (int i = 0; i < 3; i++) // son en total 3, los rounds
 }
 
 //como en la lista de strings nombre ya guardo los nombres voy a escribir el archivo ganadores.csv
-File.WriteAllLines(nombreArchivo,nombres);
-nombres.Clear();
+
 System.Console.WriteLine("Quiere ver los datos que hay en el archivo ganadores.csv?");
 int controlGanadores=Int32.Parse(Console.ReadLine());
 int indiceTorneo=0;
 if (controlGanadores==0)
 {
+    File.WriteAllLines(nombreArchivo,nombres);
+    nombres.Clear();
     string [] nombresaux=File.ReadAllLines(nombreArchivo);
     foreach (var item in nombresaux)
     {
@@ -409,6 +410,9 @@ if (controlGanadores==0)
         }
         indiceTorneo++;
     }
+    System.Console.WriteLine("Fin del juego");
+}else{
+    System.Console.WriteLine("Fin del juego");
 }
 
 
