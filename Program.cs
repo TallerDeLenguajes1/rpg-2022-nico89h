@@ -140,10 +140,10 @@ for (int i = 0; i < 3; i++) // son en total 3, los rounds
                 auxDos=indice1.Next(1,3);
                 comienzo=auxDos;
                 if(comienzo==1){ //el primer atacante pertenece a el grupo1
-                    grupo2[indiceDos].Salud=0;
+                    grupo2[indiceDos].Salud=grupo2[indiceDos].Salud+100;
                 }else //el segundo atacante es del grupo 2
                 {
-                    grupo1[indiceUno].Salud=0;
+                    grupo1[indiceUno].Salud=grupo1[indiceUno].Salud+100;
                 }
             }
             if (grupo1[indiceUno].Salud<=0)
@@ -182,9 +182,11 @@ for (int i = 0; i < 3; i++) // son en total 3, los rounds
             nombres.Add(ResultadosDos[0].Nombre);
             nombres.Add(ResultadosDos[1].Nombre);
             System.Console.WriteLine("Inicio de el combate final");
+            comienzo=1;
             for (int e = 0; e < 6 && ResultadosDos[0].Salud>0 && ResultadosDos[1].Salud>0; e++) // cantidad de ataques de cada personaje
             {
                 //hago un random de el atacante inicial
+                
                 do
                 {
                     auxDos=indice1.Next(0,2);
@@ -204,10 +206,10 @@ for (int i = 0; i < 3; i++) // son en total 3, los rounds
                 auxDos=indice1.Next(1,3);
                 comienzo=auxDos;
                 if(comienzo==1){//el primer atacante pertenece a el grupo1
-                    ResultadosDos[0].Salud=0;
+                    ResultadosDos[0].Salud=ResultadosDos[0].Salud+100;
                 }else //el segundo atacante es del grupo 2
                 {
-                    ResultadosDos[1].Salud=0;
+                    ResultadosDos[1].Salud=ResultadosDos[1].Salud+100;
                 }
             }
             //caso de que no hay un empate
@@ -274,10 +276,10 @@ for (int i = 0; i < 3; i++) // son en total 3, los rounds
                     } while (comienzo!=auxDos);
                     comienzo=auxDos;
                     if(comienzo==1){ //el primer atacante pertenece a el Resultados
-                        Resultados[indiceDos].Salud=0;
+                        Resultados[indiceDos].Salud=Resultados[indiceDos].Salud+200;
                     }else //el segundo atacante es del grupo 2
                     {
-                        Resultados[indiceUno].Salud=0;
+                        Resultados[indiceUno].Salud=Resultados[indiceUno].Salud+100;
                     }
                 }
                 //no hay un empate
