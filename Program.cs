@@ -4,12 +4,12 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Net;
 const int MaximoDanoProvocable=5000;
-List<Personaje> grupo1= new List<Personaje>();
-List<Personaje> grupo2= new List<Personaje>();
-// System.Console.WriteLine("Como queres que se carguen los personajes? 1-aleatoriamente, 2-json");
-// int boton=Int32.Parse(Console.ReadLine());
+List<Personaje> grupo1= new List<Personaje>();//inicio de el grupo1
+List<Personaje> grupo2= new List<Personaje>();//inicio de e grupo 2
+System.Console.WriteLine("Como queres que se carguen los personajes? 1-aleatoriamente, 2-json");
+int boton=Int32.Parse(Console.ReadLine());
 //incio el guardado de los datos en las listas para personajes aleatorios
-int boton=2;
+// int boton=2;
 if (boton==1)
 {
     Personaje grupo= new Personaje();
@@ -81,7 +81,7 @@ for (int i = 0; i < 3; i++) // son en total 3, los rounds
 {
     if (i==0) //primera iteracion, utilizo los valores de los grupos
     {
-        System.Console.WriteLine("Inicio de los octavos");
+        System.Console.WriteLine("Inicio de los cuartos");
         for (int t = 0; t < cantidadPeleas; t++) // realizo las pelea de cada round
         {
             //relizo el control si es que se uso un elemento o no;
@@ -90,7 +90,7 @@ for (int i = 0; i < 3; i++) // son en total 3, los rounds
             {
                 indiceUno=indice1.Next(0,4);
                 indiceDos=indice2.Next(4,8);
-            }while(!controles[indiceUno] && !controles[indiceDos]);
+            }while(!(controles[indiceUno] && controles[indiceDos]));
             //indico cuales indices ya fueron usados
             controles[indiceUno]=false;
             controles[indiceDos]=false;
@@ -244,7 +244,7 @@ for (int i = 0; i < 3; i++) // son en total 3, los rounds
                 {
                     indiceUno=indice1.Next(0,2);
                     indiceDos=indice2.Next(2,4);
-                }while(!controles[indiceUno] && !controles[indiceDos]);
+                }while(!(controles[indiceUno] && controles[indiceDos]));
                 
                 //indico cuales indices ya fueron usados
                 controles[indiceUno]=false;
@@ -433,8 +433,11 @@ int MecanicaCombate(Personaje atacante, Personaje defensor){
     int valorAtaque=PoderDisparo*efectividadDisparo;
     int poderDefensa=defensor.Armadura*defensor.Velocidad;
     int danoProvocado=(((valorAtaque*efectividadDisparo)-poderDefensa)/MaximoDanoProvocable)*100;
+    int control;
+
     System.Console.WriteLine("El "+ atacante.tipoDos+" ataco a :"+ defensor.tipoDos);
     System.Console.WriteLine("Restandole a el mismo : "+ danoProvocado);
+    control=Int32.Parse(Console.ReadLine());
     return danoProvocado;
 }
 //inicializo la lista en true, donde va a representar lo que es los indices de los personajes
