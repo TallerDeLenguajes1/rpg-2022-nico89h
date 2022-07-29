@@ -54,73 +54,7 @@ if (boton==1)
 
 //fin de el guardado de datos
 
-
-int controlApi;
-System.Console.WriteLine("Quiere ver o visualizar los valores de la api? Presione 0 para ver, indicara la cantidad de personajes que tienen un nombre igual a el de la clase");
-controlApi=Int32.Parse(Console.ReadLine());
-int cantidadElixir=0;
 List<string> nombres= new List<string>();
-if (controlApi==0)
-{
-    //inicio de la api
-    
-    var url="https://wizard-world-api.herokuapp.com/Elixirs"; //datos de los elixirs de harry potter
-    var request=(HttpWebRequest)WebRequest.Create(url);
-    request.Method="GET";
-    request.ContentType="application/json";
-    request.Accept="application/json";
-    try
-    {
-        using (WebResponse response=request.GetResponse())
-        {
-            using (Stream strReader = response.GetResponseStream())
-            {
-                if (strReader==null) return;
-                using (StreamReader objReader= new StreamReader(strReader))
-                {
-                    string respondeBody = objReader.ReadToEnd();
-
-                    var elixir= JsonSerializer.Deserialize<List<Elixir>>(respondeBody);
-                    //inicio de el control de el elixir
-                    int l = 0;
-                    for (int p = 0; p < elixir.Count; p++) // recorro los datos de la lista recibida de la api
-                    {
-                        //System.Console.WriteLine("Nombre : "+ elixir[p].Name);
-                        //controla la cantidad de veces que aparecen los nombres y cuales son 
-                        for (l=0; l < 4; l++) //recorro los personajes
-                        {
-                            if (elixir[p].Name==grupo1[l].Nombre || elixir[p].Name==grupo2[l].Nombre)
-                            {
-                                nombres.Add(elixir[p].Name);
-                                cantidadElixir++;
-                            }
-                        }
-                        l=0;
-                    }
-                    //los nombres q apareceran son 3, en caso de que se use el json
-                    if (cantidadElixir>0)
-                    {
-                        System.Console.WriteLine("La cantidad de nombres que coinciden con los nombres de elixir son: "+ cantidadElixir);
-                        foreach (var item in nombres)
-                        {
-                            System.Console.WriteLine("Nombre: "+ item);
-                        }
-                    }else
-                    {
-                        System.Console.WriteLine("Ningun nombre coincide con la api");
-                    }
-                }
-            }
-        }
-    }
-    catch{
-        System.Console.WriteLine("Se preodujo un error");
-    }
-}
-
-
-
-
 
 
 
@@ -415,6 +349,73 @@ if (controlGanadores==0)
     System.Console.WriteLine("Fin del juego");
 }
 
+if (nombres.Count>0)
+{
+    nombres.Clear();//elimino los datos guardados anteriormente
+}
+//inicio de API
+int controlApi;
+System.Console.WriteLine("Quiere ver o visualizar los valores de la api? Presione 0 para ver, indicara la cantidad de personajes que tienen un nombre igual a el de la clase");
+controlApi=Int32.Parse(Console.ReadLine());
+int cantidadElixir=0;
+
+if (controlApi==0)
+{
+    //inicio de la api
+    
+    var url="https://wizard-world-api.herokuapp.com/Elixirs"; //datos de los elixirs de harry potter
+    var request=(HttpWebRequest)WebRequest.Create(url);
+    request.Method="GET";
+    request.ContentType="application/json";
+    request.Accept="application/json";
+    try
+    {
+        using (WebResponse response=request.GetResponse())
+        {
+            using (Stream strReader = response.GetResponseStream())
+            {
+                if (strReader==null) return;
+                using (StreamReader objReader= new StreamReader(strReader))
+                {
+                    string respondeBody = objReader.ReadToEnd();
+
+                    var elixir= JsonSerializer.Deserialize<List<Elixir>>(respondeBody);
+                    //inicio de el control de el elixir
+                    int l = 0;
+                    for (int p = 0; p < elixir.Count; p++) // recorro los datos de la lista recibida de la api
+                    {
+                        //System.Console.WriteLine("Nombre : "+ elixir[p].Name);
+                        //controla la cantidad de veces que aparecen los nombres y cuales son 
+                        for (l=0; l < 4; l++) //recorro los personajes
+                        {
+                            if (elixir[p].Name==grupo1[l].Nombre || elixir[p].Name==grupo2[l].Nombre)
+                            {
+                                nombres.Add(elixir[p].Name);
+                                cantidadElixir++;
+                            }
+                        }
+                        l=0;
+                    }
+                    //los nombres q apareceran son 3, en caso de que se use el json
+                    if (cantidadElixir>0)
+                    {
+                        System.Console.WriteLine("La cantidad de nombres que coinciden con los nombres de elixir son: "+ cantidadElixir);
+                        foreach (var item in nombres)
+                        {
+                            System.Console.WriteLine("Nombre: "+ item);
+                        }
+                    }else
+                    {
+                        System.Console.WriteLine("Ningun nombre coincide con la api");
+                    }
+                }
+            }
+        }
+    }
+    catch{
+        System.Console.WriteLine("Se preodujo un error");
+    }
+}
 
 
 
