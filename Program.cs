@@ -6,10 +6,10 @@ using System.Net;
 const int MaximoDanoProvocable=5000;
 List<Personaje> grupo1= new List<Personaje>();
 List<Personaje> grupo2= new List<Personaje>();
-System.Console.WriteLine("Como queres que se carguen los personajes? 1-aleatoriamente, 2-json");
-int boton=Int32.Parse(Console.ReadLine());
+// System.Console.WriteLine("Como queres que se carguen los personajes? 1-aleatoriamente, 2-json");
+// int boton=Int32.Parse(Console.ReadLine());
 //incio el guardado de los datos en las listas para personajes aleatorios
-//int boton=2;
+int boton=2;
 if (boton==1)
 {
     Personaje grupo= new Personaje();
@@ -231,10 +231,6 @@ for (int i = 0; i < 3; i++) // son en total 3, los rounds
         }else
         {
             System.Console.WriteLine("Inicio de Las semis finales");
-            if (nombres.Count>0)
-            {
-                nombres.Clear();//elimino los nombres guardados en la api   
-            }
             for (int v = 0; v < 4; v++) //añado los nombres de los personajes ganadores en la lista nombres
             {
                 nombres.Add(Resultados[v].Nombre);
@@ -287,13 +283,13 @@ for (int i = 0; i < 3; i++) // son en total 3, los rounds
                 //no hay un empate
                 if (Resultados[indiceUno].Salud<=0)
                 {
-                    System.Console.WriteLine("El ganador de el round es : "+ Resultados[indiceUno].tipoDos);
+                    System.Console.WriteLine("El ganador de el round es : "+ Resultados[indiceDos].tipoDos);
                     ResultadosDos.Insert(cantidad,new Personaje{Nombre=Resultados[indiceDos].Nombre,Apodo=Resultados[indiceDos].Apodo,FechaNacimiento=Resultados[indiceDos].FechaNacimiento, tipoDos=Resultados[indiceDos].tipoDos, Salud=100});
                     ResultadosDos[cantidad].aleatorios();
                     ResultadosDos[cantidad].valores();
                     cantidad++;
                 }else if(Resultados[indiceDos].Salud<=0){
-                    System.Console.WriteLine("El ganador de el round es : "+ Resultados[indiceDos].tipoDos);
+                    System.Console.WriteLine("El ganador de el round es : "+ Resultados[indiceUno].tipoDos);
                     ResultadosDos.Insert(cantidad,new Personaje{Nombre=Resultados[indiceUno].Nombre,Apodo=Resultados[indiceUno].Apodo,FechaNacimiento=Resultados[indiceUno].FechaNacimiento,tipoDos=Resultados[indiceUno].tipoDos, Salud=100});
                     ResultadosDos[cantidad].aleatorios();
                     ResultadosDos[cantidad].valores();
